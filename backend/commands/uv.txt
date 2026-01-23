@@ -1,0 +1,69 @@
+============================================================
+              PROJECT SETUP & GUIDE (USING UV)
+============================================================
+
+This project uses `uv` instead of `pip`. It is a faster, all-in-one 
+tool that handles Python installation, virtual environments, 
+and package management automatically.
+
+
+================ 1. Install uv (First Time Only) ================
+Run the command for your operating system.
+
+# Windows (PowerShell)
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# macOS / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+NOTE: If your terminal doesn't recognize the 'uv' command after 
+installing, close and reopen your terminal window.
+
+
+================ 2. Project Initialization ================
+Run this single command to set up the environment. It will:
+1. Install the correct Python version automatically.
+2. Create the virtual environment.
+3. Install all dependencies from the lockfile.
+
+uv sync
+
+
+================ 3. Running the Application ================
+You do NOT need to manually activate a virtual environment.
+Just prefix your command with `uv run`.
+
+# Start the FastAPI Development Server (Auto-Reload enabled)
+uv run fastapi dev src
+
+# Run a specific Python script
+uv run python script.py
+
+
+================ 4. Managing Packages ================
+Use these commands to manage libraries. This updates the lockfile
+automatically to ensure everyone uses the exact same versions.
+
+# Add a new package (Replaces 'pip install')
+uv add package_name
+# Example: uv add requests
+
+# Add a specific version
+uv add "numpy!=2.4.0"
+
+# Remove a package
+uv remove package_name
+
+# Update all packages to latest allowed versions
+uv lock --upgrade
+
+
+================ 5. Manual Activation (Optional) ================
+If you prefer the old-school way of activating the shell 
+to see the (venv) prompt:
+
+# Windows (PowerShell)
+.venv\Scripts\activate
+
+# macOS / Linux
+source .venv/bin/activate

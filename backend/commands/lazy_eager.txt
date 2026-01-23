@@ -1,0 +1,104 @@
+========================Lazy vs Eager Loading in SQLAlchemy========================
+
+Both loading strategies determine **when and how related data (e.g., relationships) is fetched**.
+
+===================================================================================
+1️⃣ Lazy Loading  –  "Load it when I access it"
+===================================================================================
+# Default behavior in many ORMs.
+# Related objects are NOT loaded with the main object immediately.
+# They are only queried when the attribute is accessed.
+
+Example:
+---------
+class User(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    name: str
+    posts: List["Post"] = Relationship(back_populates="user", sa_relationship_kwargs={"lazy": "select"})
+
+class Post(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    content: str
+    user_id: int = Field(foreign_key="user.id")
+    user: "User" = Relationship(back_populates="posts")
+
+# When you query a user:
+user = await session.get(User, user_id)
+# The posts are not loaded yet.
+# They are loaded only when you do:
+print(user.posts)  # This triggers a separate SQL query.
+
+When to Use:
+------------
+✅ When you often don’t need the related data immediately  
+✅ When related data is large (like logs or media)  
+❌ Avoid if you'll need all the related data right after fetching the parent
+
+
+===================================================================================
+2️⃣ Eager Loading – "Load everything now"
+===================================================================================
+# You fetch the main object + related data in one query (via JOIN or SELECT IN).
+
+Use with `selectinload`, `joinedload`, or `subqueryload`.
+
+Example:
+---------
+from sqlalchemy.orm import selectinload
+from sqlmodel import select
+
+result = await session.exec(
+    select(User).options(selectinload(User.posts))
+)
+users = result.all()
+
+# This loads users + their posts in advance.
+# No extra queries are made when accessing user.posts
+
+When to Use:
+------------
+✅ When you KNOW you'll use related data immediately (e.g., show user and their posts)  
+✅ Avoids N+1 problem  
+❌ Not ideal for large or rarely-needed relationships  
+
+
+===================================================================================
+🔍 Types of Eager Loading
+===================================================================================
+- `selectinload`: Executes 1 query for the parent and 1 extra for each relationship (uses WHERE IN)  
+  ✅ Efficient for many-to-one and one-to-many
+- `joinedload`: Joins in one big query using SQL JOIN  
+  ✅ Fastest for small, dense data
+  ❌ Can result in duplicate rows if one-to-many
+- `subqueryload`: Uses a subquery to load related objects  
+  ✅ Safe for large datasets, but more complex
+
+Example with joinedload:
+-------------------------
+from sqlalchemy.orm import joinedload
+
+result = await session.exec(
+    select(User).options(joinedload(User.posts))
+)
+users = result.all()
+
+
+===================================================================================
+🧠 Rule of Thumb
+===================================================================================
+Use LAZY when:
+- You only need parent data
+- Related data is large or rarely used
+- You want fewer queries upfront
+
+Use EAGER when:
+- You know you’ll use the related data right after
+- You want to avoid extra roundtrips
+- You're preparing structured responses (e.g., API with user + posts)
+
+===================================================================================
+✍️ Bonus: For API Responses
+===================================================================================
+If you're serializing responses (like in FastAPI), and related fields are needed in JSON:
+👉 Prefer EAGER loading to avoid multiple DB hits.
+

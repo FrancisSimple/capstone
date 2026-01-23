@@ -1,0 +1,123 @@
+=========================== LOCAL MACHINE (Windows) ==========
+
+# Login to GitHub Container Registry (Only needed once)
+docker login ghcr.io -u francissimple
+
+# Build a new image version (e.g., v2, v3, or latest)
+docker build -t ghcr.io/francissimple/keeyo-backend:latest .
+
+# Push the image to GitHub
+docker push ghcr.io/francissimple/keeyo-backend:latest
+
+=========================== SSH Tunneling (Access pgAdmin) ==========
+
+# Open a secure bridge from Laptop Port 9090 to Server Port 5432
+# Keep this terminal window OPEN while using pgAdmin
+ssh -N -L 9090:localhost:5432 francis@178.62.11.53
+
+=========================== File Transfer (SCP) ==========
+
+# Download a backup file from Server to Laptop Desktop
+scp francis@178.62.11.53:/home/francis/backups/emergency_backup.sql C:\Users\User\Desktop\
+
+# Upload a file from Laptop Desktop to Server
+scp C:\Users\User\Desktop\emergency_backup.sql francis@178.62.11.53:/home/francis/backups/
+
+=========================== Git Auto-Deploy Trigger ==========
+
+# Trigger the CI/CD pipeline (Test -> Build -> Deploy)
+git add .
+git commit -m "Description of changes"
+git push origin main
+
+
+=========================== SERVER SIDE (Digital Ocean) ==========
+
+# Login to the server
+ssh francis@178.62.11.53
+
+# Navigate to the project folder
+cd ~/projects/keeyo/backend/container
+
+=========================== Docker Lifecycle (Server) ==========
+
+# Check status of containers (Are they Up?)
+docker-compose ps
+
+# View live logs for the backend (Press Ctrl+C to exit)
+docker-compose logs -f backend
+
+# View live logs for the database
+docker-compose logs -f db
+
+# Stop all containers (Downtime)
+docker-compose down
+
+# Restart all containers
+docker-compose restart
+
+=========================== Docker Update (Manual Pull) ==========
+
+# 1. Download the latest image from GitHub
+docker-compose pull
+
+# 2. Apply changes and restart containers
+docker-compose up -d
+
+# 3. Clean up old/unused images to save space
+docker image prune -f
+
+=========================== Database Migrations ==========
+
+# Run this if you added new tables/columns in your code
+docker-compose exec backend alembic upgrade head
+
+
+=========================== DATABASE MANAGEMENT (On Server) ==========
+
+# Enter the SQL Shell (Interactive Mode)
+docker-compose exec db psql -U keeyoadmin -d keeyo
+
+# --- Common SQL Commands (Inside the Shell) ---
+# \dt                          : List all tables
+# SELECT * FROM users;         : Show all users
+# \q                           : Exit the shell
+
+=========================== BACKUPS (On Server) ==========
+
+# Create a Manual Backup (saves to /home/francis/backups/)
+docker-compose exec -T db pg_dump -U keeyoadmin keeyo > /home/francis/backups/manual_backup.sql
+
+=========================== RESTORE DATABASE (Nuclear Option) ==========
+# WARNING: This deletes current data and replaces it with the backup file
+
+# 1. Stop the application to prevent writes
+docker-compose stop backend
+
+# 2. Drop and Recreate the Database
+docker-compose exec db psql -U keeyoadmin -d postgres -c "DROP DATABASE keeyo;"
+docker-compose exec db psql -U keeyoadmin -d postgres -c "CREATE DATABASE keeyo;"
+
+# 3. Inject the backup file
+cat /home/francis/backups/emergency_backup.sql | docker-compose exec -T db psql -U keeyoadmin -d keeyo
+
+# 4. Restart the application
+docker-compose start backend
+
+
+=========================== CONFIGURATION PATHS ==========
+
+# Project Folder
+~/projects/keeyo/backend/container
+
+# Environment Variables (Secrets)
+~/projects/keeyo/backend/container/.env
+
+# Docker Composition File
+~/projects/keeyo/backend/container/docker-compose.yml
+
+# Backup Directory
+/home/francis/backups/
+
+# Cron Jobs (Auto-Backup Config)
+# Run: crontab -e

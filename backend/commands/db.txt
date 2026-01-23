@@ -1,0 +1,109 @@
+=========================== CONNECT TO DATABASE ===========================
+
+# 1. Teleport inside the Database Container (Interactive Terminal)
+# -U = username, -d = database name
+docker-compose exec db psql -U keeyoadmin -d keeyo
+
+# 2. Exit the database shell
+\q
+
+
+=========================== EXPLORING TABLES ===========================
+
+# List all tables in the database
+\dt
+
+# List all tables including size and description
+\dt+
+
+# Describe a specific table (See columns, types, and constraints)
+# Example: Check the 'users' table structure
+\d users
+
+# List all databases on this server
+\l
+
+# Switch to a different database
+\c other_db_name
+
+
+=========================== READING DATA (SELECT) ===========================
+
+# View EVERYTHING in a table (Use with caution on big tables)
+SELECT * FROM users;
+
+# View only specific columns
+SELECT id, email, created_at FROM users;
+
+# View top 5 most recent rows (Useful for quick checks)
+SELECT * FROM users ORDER BY created_at DESC LIMIT 5;
+
+# Count how many rows are in a table
+SELECT COUNT(*) FROM items;
+
+# Find a specific row by ID
+SELECT * FROM users WHERE id = 1;
+
+# Find a row by text (e.g., Email)
+SELECT * FROM users WHERE email = 'francis@example.com';
+
+# Search using a partial match (Like 'fra...')
+SELECT * FROM users WHERE email LIKE 'fra%';
+
+
+=========================== WRITING DATA (INSERT/UPDATE) ===========================
+
+# Insert a new row manually
+INSERT INTO users (email, password, is_active) 
+VALUES ('newuser@example.com', 'hashed_secret', true);
+
+# Update a specific field for a user
+UPDATE users SET is_active = false WHERE email = 'baduser@example.com';
+
+# Update multiple fields at once
+UPDATE items 
+SET price = 200, stock = 50 
+WHERE id = 5;
+
+
+=========================== DELETING DATA (DANGER ZONE) ===========================
+
+# Delete a specific row
+DELETE FROM users WHERE email = 'test@example.com';
+
+# Delete ALL rows in a table (Keeps the table structure)
+TRUNCATE TABLE users;
+
+# Delete the entire table (Destroys structure and data)
+DROP TABLE users;
+
+
+=========================== TROUBLESHOOTING & MAINTENANCE ===========================
+
+# Show history of commands you typed
+\s
+
+# Clear the screen
+Ctrl + L
+
+# Toggle "Expanded Display" (Good for tables with many columns)
+# Turns headers from horizontal to vertical list
+\x
+
+# Check database size
+SELECT pg_size_pretty(pg_database_size('keeyo'));
+
+# Check active connections (Who is logged in?)
+SELECT pid, usename, client_addr, state, query 
+FROM pg_stat_activity;
+
+
+=========================== ALEMBIC (Migrations) ===========================
+# Note: Run these from the BACKEND container, not inside the DB
+
+# Check current migration version
+SELECT * FROM alembic_version;
+
+# If 'alembic_version' table is missing or conflicts exist:
+# 1. Delete the table (CAREFUL: Only if resetting migrations)
+DROP TABLE alembic_version;
