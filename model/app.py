@@ -27,6 +27,7 @@ st.set_page_config(page_title="Smart Fruit Inspector", page_icon="🍊", layout=
 # 2. CORE FUNCTIONS
 # ==========================================
 
+
 def load_current_model():
     """Loads the model from disk. Not cached so we can reload updates."""
     try:
