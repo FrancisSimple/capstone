@@ -1,231 +1,212 @@
 import streamlit as st
 import tensorflow as tf
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.models import load_model
+from tensorflow.keras.models import load_model, Model
+from tensorflow.keras.layers import Dense, Dropout
+from tensorflow.keras.preprocessing.image import img_to_array, load_img
+from tensorflow.keras.optimizers import Adam
 from PIL import Image, ImageOps
 import numpy as np
 import os
-import shutil
 import time
+import glob
 
 # ==========================================
-# 1. SYSTEM CONFIGURATION
+# 1. CONFIGURATION
 # ==========================================
 MODEL_FILE = 'orange_quality_model.h5'
-RETRAIN_THRESHOLD = 5  # Number of images needed to unlock the "Retrain" button
-NEW_DATA_DIR = 'new_data'
-CLASSES = ['fresh', 'rotten'] # 0 = Fresh, 1 = Rotten
+RETRAIN_THRESHOLD = 5
+NEW_DATA_DIR = 'new_data_regression'
 
-# Create necessary folders if they don't exist
-os.makedirs(os.path.join(NEW_DATA_DIR, 'fresh'), exist_ok=True)
-os.makedirs(os.path.join(NEW_DATA_DIR, 'rotten'), exist_ok=True)
+os.makedirs(NEW_DATA_DIR, exist_ok=True)
 
-# Page Setup
-st.set_page_config(page_title="Smart Fruit Inspector", page_icon="🍊", layout="wide")
+st.set_page_config(page_title="Precision Trainer", page_icon="📉", layout="centered")
 
 # ==========================================
-# 2. CORE FUNCTIONS
+# 2. SURGERY FUNCTIONS (THE FIX)
 # ==========================================
 
-
-def load_current_model():
-    """Loads the model from disk. Not cached so we can reload updates."""
-    try:
-        return load_model(MODEL_FILE)
-    except Exception as e:
-        st.error(f"CRITICAL ERROR: Could not load model. {e}")
+def load_and_fix_model():
+    """
+    Loads the model. If it detects the 'stuck' behavior, 
+    it resets the final layer to allow regression learning.
+    """
+    if not os.path.exists(MODEL_FILE):
+        st.error(f"❌ '{MODEL_FILE}' not found.")
         st.stop()
-
-def save_feedback_image(image, true_label):
-    """Saves the user-corrected image to the training folder."""
-    timestamp = int(time.time())
-    # Use a unique name so we don't overwrite files
-    filename = f"{true_label}_{timestamp}.jpg"
-    path = os.path.join(NEW_DATA_DIR, true_label, filename)
-    image.save(path)
-    return path
-
-def get_new_data_count():
-    """Counts total new images waiting in the 'fresh' and 'rotten' folders."""
-    total = 0
-    for category in CLASSES:
-        path = os.path.join(NEW_DATA_DIR, category)
-        total += len(os.listdir(path))
-    return total
-
-def retrain_brain():
-    """
-    AGGRESSIVE RETRAINING FUNCTION
-    Forces the model to over-fit on the new data to fix mistakes immediately.
-    """
-    progress_bar = st.progress(0, text="Initializing training...")
-    
-    # 1. SETUP DATA GENERATOR (HEAVY AUGMENTATION)
-    # We twist and turn the images so the model sees 'more' data than we actually have
-    train_datagen = ImageDataGenerator(
-        rescale=1./255,
-        rotation_range=20,
-        width_shift_range=0.2,
-        height_shift_range=0.2,
-        horizontal_flip=True,
-        fill_mode='nearest'
-    )
-    
-    train_generator = train_datagen.flow_from_directory(
-        NEW_DATA_DIR,
-        target_size=(224, 224),
-        batch_size=4, # Small batch size forces updates on every few images
-        class_mode='binary',
-        shuffle=True
-    )
-
-    if train_generator.samples == 0:
-        st.warning("No data found to train on!")
-        return
-
-    # 2. PREPARE MODEL
-    progress_bar.progress(20, text="Loading Neural Network...")
-    tf.keras.backend.clear_session() # Clear RAM to prevent crashes
+        
     model = load_model(MODEL_FILE)
     
-    # UNFREEZE LAYERS (Allow the brain to change)
-    model.trainable = True
+    # CHECK: Is this a 'stuck' classifier? 
+    # We check the name of the last layer. If it's the old one, we might need to reset.
+    # For now, we will just return it, but the RETRAIN function will handle the surgery.
+    return model
+
+def perform_brain_surgery(model):
+    """
+    Removes the old 'confident' layer and adds a fresh one for regression.
+    """
+    # 1. Peel off the top layer (The stuck output)
+    # MobileNetV2 usually ends with GlobalAveragePooling -> Dropout -> Dense.
+    # We want to keep everything up to the Dropout.
     
-    # HIGH LEARNING RATE (Aggressive Mode)
-    # 0.001 is standard, 0.00001 is gentle. We use 0.001 to force changes.
-    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
-                  loss='binary_crossentropy',
-                  metrics=['accuracy'])
+    # Find the last 'Dropout' layer or 'GlobalAveragePooling2D'
+    last_layer = None
+    for layer in reversed(model.layers):
+        if 'dropout' in layer.name or 'global_average_pooling' in layer.name:
+            last_layer = layer
+            break
+            
+    if last_layer:
+        print(f"Surgery: Connecting new head to {last_layer.name}")
+        x = last_layer.output
+        # 2. Add a FRESH Dense layer
+        # We use 'sigmoid' because we want 0.0 to 1.0 output
+        # But since it's fresh, weights are small, so it won't be stuck at 100%.
+        predictions = Dense(1, activation='sigmoid', name='regression_head')(x)
+        
+        # 3. Create New Model
+        new_model = Model(inputs=model.input, outputs=predictions)
+        
+        # 4. Compile for REGRESSION (MSE Loss)
+        new_model.compile(optimizer=Adam(learning_rate=0.001),
+                          loss='mean_squared_error', 
+                          metrics=['mae'])
+        return new_model
+    else:
+        st.error("Could not find layer to attach to. Model structure is unexpected.")
+        return model
+
+def custom_regression_generator():
+    """Reads images and parses score from filename (quality_0.65_xxxx.jpg)"""
+    images = []
+    scores = []
+    files = glob.glob(f"{NEW_DATA_DIR}/*.jpg")
     
-    # 3. TRAIN LOOP
-    progress_bar.progress(40, text="Training (20 Epochs)...")
+    for f in files:
+        try:
+            base = os.path.basename(f)
+            # Filename format: quality_0.65_12345.jpg
+            # Split by '_' -> ['quality', '0.65', '12345.jpg']
+            score_str = base.split('_')[1] 
+            score = float(score_str)
+            
+            # Load & Preprocess
+            img = load_img(f, target_size=(224, 224))
+            img_arr = img_to_array(img)
+            img_pre = tf.keras.applications.mobilenet_v2.preprocess_input(img_arr)
+            
+            images.append(img_pre)
+            scores.append(score)
+        except Exception as e:
+            print(f"Error reading {f}: {e}")
+            
+    return np.array(images), np.array(scores)
+
+def retrain_regression_mode():
+    status = st.status("📉 performing Brain Surgery...", expanded=True)
     
-    # Train for 20 rounds on this specific data
-    model.fit(train_generator, epochs=20, verbose=0)
+    # 1. Load Data
+    status.write("Reading collected images...")
+    X_train, y_train = custom_regression_generator()
     
-    # 4. SAVE
-    progress_bar.progress(80, text="Saving new intelligence...")
+    if len(X_train) == 0:
+        status.update(label="⚠️ No data found!", state="error")
+        return
+
+    # 2. Load Old Model
+    tf.keras.backend.clear_session()
+    old_model = load_model(MODEL_FILE)
+    
+    # 3. PERFORM SURGERY (Reset the Head)
+    status.write("Resetting decision layer (Fixing 100% bug)...")
+    model = perform_brain_surgery(old_model)
+    
+    # 4. Train
+    status.write(f"Training on {len(X_train)} samples...")
+    # We train for more epochs (30) to ensure the new head learns the patterns
+    model.fit(X_train, y_train, batch_size=4, epochs=30, verbose=0)
+    
+    # 5. Save
     model.save(MODEL_FILE)
     
-    # 5. CLEANUP (Delete used images)
-    progress_bar.progress(90, text="Cleaning up workspace...")
-    for category in CLASSES:
-        folder = os.path.join(NEW_DATA_DIR, category)
-        for f in os.listdir(folder):
-            try:
-                os.remove(os.path.join(folder, f))
-            except:
-                pass # Ignore if file is already gone
+    # 6. Cleanup (Optional: Keep them if you want to accumulate data)
+    # For now, let's keep them so you build a bigger dataset
+    # for f in glob.glob(f"{NEW_DATA_DIR}/*.jpg"):
+    #    os.remove(f)
             
-    progress_bar.progress(100, text="Complete!")
-    time.sleep(1) # Let user see the 100%
+    status.update(label="✅ Surgery Complete! Model is now sensitive.", state="complete", expanded=False)
+    time.sleep(1)
+    st.rerun()
+
+def save_scored_image(image, rot_score):
+    """Saves image with ROT SCORE (0.0 - 1.0) in filename"""
+    timestamp = int(time.time())
+    filename = f"quality_{rot_score:.2f}_{timestamp}.jpg"
+    path = os.path.join(NEW_DATA_DIR, filename)
+    image.save(path)
 
 # ==========================================
-# 3. SIDEBAR (CONTROLS & TRAINING)
+# 3. UI
 # ==========================================
+st.title("📉 Precision Trainer (Fixed)")
+st.write("Current Phase: **Data Collection & Tuning**")
+
+# --- SIDEBAR ---
 with st.sidebar:
-    st.header("⚙️ Control Panel")
+    st.header("Dataset")
+    count = len(os.listdir(NEW_DATA_DIR))
+    st.metric("Images Collected", f"{count}")
     
-    # --- A. QUALITY SETTINGS ---
-    st.subheader("1. Standards")
-    quality_threshold = st.slider(
-        "Min. Pass Quality (%)", 
-        0, 100, 75,
-        help="Fruits below this will be rejected."
-    )
+    st.info("Since we reset the brain, collect at least 10 images with VARIED scores (0%, 50%, 100%) before clicking Retrain.")
     
-    st.divider()
+    if count >= 5:
+        if st.button("🚀 FORCE RETRAIN (RESET BRAIN)", type="primary"):
+            retrain_regression_mode()
+
+# --- INPUT ---
+st.write("---")
+input_method = st.radio("Input:", ["📂 Phone/Upload", "💻 Laptop Cam"], horizontal=True)
+
+image = None
+if input_method == "📂 Phone/Upload":
+    img_file = st.file_uploader("Take Photo", type=['jpg','png','jpeg'])
+    if img_file: image = Image.open(img_file).convert('RGB')
+else:
+    img_file = st.camera_input("Cam")
+    if img_file: image = Image.open(img_file).convert('RGB')
+
+# --- LOGIC ---
+if image:
+    # Preprocess
+    img_resized = ImageOps.fit(image, (224, 224), Image.Resampling.LANCZOS)
+    img_array = np.array(img_resized)
+    img_batch = np.expand_dims(img_array, axis=0)
+    img_pre = tf.keras.applications.mobilenet_v2.preprocess_input(img_batch.astype(np.float32))
     
-    # --- B. TRAINING STATUS ---
-    st.subheader("2. AI Improvement")
-    new_imgs = get_new_data_count()
+    # Predict
+    model = load_model(MODEL_FILE)
+    pred = model.predict(img_pre)
+    rot_prob = float(pred[0][0])
+    quality = (1.0 - rot_prob) * 100
     
-    # Show progress bar (e.g., 3/5 images)
-    st.metric("Images Collected", f"{new_imgs} / {RETRAIN_THRESHOLD}")
-    st.progress(min(new_imgs / RETRAIN_THRESHOLD, 1.0))
+    st.image(image, width=300)
     
-    # --- C. MANUAL RETRAIN BUTTON ---
-    # Only show button if we have enough data
-    if new_imgs >= RETRAIN_THRESHOLD:
-        st.success("Buffer Full! Ready to Update.")
-        if st.button("🚀 UPDATE BRAIN NOW", type="primary"):
-            with st.spinner(" performing deep learning update..."):
-                retrain_brain()
-            st.balloons()
-            st.success("Model Updated Successfully!")
-            time.sleep(2)
-            st.rerun() # Refresh page to reload new model
-    else:
-        st.info(f"Need {RETRAIN_THRESHOLD - new_imgs} more corrections to train.")
-
-# ==========================================
-# 4. MAIN INTERFACE
-# ==========================================
-
-st.title("🍊 Intelligent Quality Control")
-st.markdown("---")
-
-col_left, col_right = st.columns([1, 1], gap="large")
-
-# --- LEFT COLUMN: INPUT ---
-with col_left:
-    st.subheader("📸 1. Inspection Station")
-    uploaded_file = st.file_uploader("Upload Fruit Image", type=["jpg", "png", "jpeg"])
-
-    if uploaded_file:
-        image = Image.open(uploaded_file).convert('RGB')
-        st.image(image, caption="Current Item", use_container_width=True)
-
-# --- RIGHT COLUMN: RESULT & FEEDBACK ---
-with col_right:
-    if uploaded_file:
-        st.subheader("📊 2. AI Analysis")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.metric("AI Guess", f"{quality:.1f}%")
+        st.progress(int(quality))
         
-        # 1. PREPROCESS
-        size = (224, 224)
-        img_resized = ImageOps.fit(image, size, Image.Resampling.LANCZOS)
-        img_array = np.array(img_resized)
-        img_batch = np.expand_dims(img_array, axis=0)
-        img_preprocessed = tf.keras.applications.mobilenet_v2.preprocess_input(img_batch.astype(np.float32))
+    with c2:
+        st.write("### Teach Correct Score")
+        # Slider for True Quality (0=Rotten, 100=Fresh)
+        true_q = st.slider("Actual Quality", 0, 100, int(quality))
         
-        # 2. PREDICT
-        model = load_current_model()
-        prediction = model.predict(img_preprocessed)
-        rot_prob = prediction[0][0]
-        quality_score = (1.0 - rot_prob) * 100
+        # Invert for Rot Score (Model trains on Rot, 0 to 1)
+        # Quality 80% = Rot 0.20
+        target_rot = 1.0 - (true_q / 100.0)
         
-        # 3. DISPLAY SCORES
-        # Color logic for the progress bar
-        bar_color = "green" if quality_score >= quality_threshold else "red"
-        st.write(f"**Quality Score:** {quality_score:.1f}%")
-        st.progress(int(quality_score))
-        
-        # 4. DECISION
-        if quality_score >= quality_threshold:
-            st.success(f"✅ PASSED INSPECTION")
-        else:
-            st.error(f"🔴 REJECTED")
-
-        st.markdown("---")
-        
-        # 5. HUMAN FEEDBACK LOOP
-        st.subheader("🛠️ 3. Operator Override")
-        st.write("Is the analysis wrong? Correct it below:")
-        
-        # Slider for manual rating
-        user_rating = st.slider("Set True Quality (%)", 0, 100, int(quality_score))
-        
-        if st.button("💾 Submit Correction"):
-            # Determine Label based on User Rating
-            if user_rating > 50:
-                label = "fresh"
-                msg = "Marked as FRESH"
-            else:
-                label = "rotten"
-                msg = "Marked as ROTTEN"
-            
-            save_feedback_image(image, label)
-            
-            st.toast(f"✅ {msg}! Added to training queue.")
+        if st.button("💾 Save Data"):
+            save_scored_image(image, target_rot)
+            st.toast(f"Saved! (Target Rot: {target_rot:.2f})")
             time.sleep(1)
-            st.rerun() # Refresh to update the sidebar counter
+            st.rerun()
