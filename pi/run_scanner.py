@@ -16,7 +16,7 @@ VETO_LIMIT = 40
 
 print("🚀 Raspberry Pi Scanner Starting...")
 
-camera = Camera()
+camera = Camera(source="ip")
 model = Model(MODEL_PATH)
 
 while True:
