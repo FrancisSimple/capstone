@@ -28,7 +28,7 @@ except Exception as e:
     exit()
 
 # ✅ USE CAMERA MODULE
-camera = Camera(source="ip")   # or "pi" later
+camera = Camera(source="usb")   # or "pi" later
 
 print(">>> Camera started. Press 'q' to quit.")
 
