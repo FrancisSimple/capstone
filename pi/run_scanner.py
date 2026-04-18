@@ -1,14 +1,22 @@
 import cv2
 import numpy as np
 import tensorflow as tf
-from camera import Camera   # ✅ USE YOUR CAMERA CLASS
+from camera import Camera
+import requests
+import threading
+import time
 
 # ==========================================
 # CONFIG
 # ==========================================
-MODEL_PATH = '../model/orange_quality_model.tflite'
+MODEL_PATH = '../models/tflite/orange_quality_model.tflite'
 PASS_THRESHOLD = 70
 VETO_LIMIT = 40
+
+# --- NETWORK CONFIG ---
+# UPDATE THIS TO YOUR DESKTOP'S LOCAL IP ADDRESS
+PC_IP = "192.168.1.100" 
+SERVER_URL = f"http://{PC_IP}:8000/log"
 
 print(">>> Booting system...")
 print(">>> Loading TFLite model...")
@@ -22,15 +30,23 @@ try:
     output_details = interpreter.get_output_details()
 
     print("✅ Model loaded!")
-
 except Exception as e:
     print(f"❌ Model error: {e}")
     exit()
 
-# ✅ USE CAMERA MODULE
 camera = Camera(source="usb")   # or "pi" later
-
 print(">>> Camera started. Press 'q' to quit.")
+
+# Tracker State
+next_id = 1
+tracked_objects = {}  # id: [x, y, last_seen_time, sent_telemetry]
+
+def send_telemetry(payload):
+    try:
+        requests.post(SERVER_URL, json=payload, timeout=1.0)
+    except Exception as e:
+        # Ignore silent failures to not crash the Pi vision loop
+        pass
 
 # ==========================================
 # MAIN LOOP
@@ -59,6 +75,7 @@ while True:
 
     total_oranges = 0
     bad_oranges = 0
+    active_now = []
 
     if circles is not None:
         circles = np.uint16(np.around(circles))
@@ -72,6 +89,30 @@ while True:
             y1 = max(0, y - radius - 10)
             x2 = min(frame.shape[1], x + radius + 10)
             y2 = min(frame.shape[0], y + radius + 10)
+            w = x2 - x1
+            h = y2 - y1
+
+            # STABLE TRACKING (to prevent duplicate telemetry)
+            match_id = None
+            for o_id, data in tracked_objects.items():
+                last_x, last_y = data[0], data[1]
+                dist = np.sqrt((x - last_x)**2 + (y - last_y)**2)
+                if dist < 100: # Distance threshold
+                    match_id = o_id
+                    break
+            
+            is_new = False
+            if match_id is None:
+                match_id = next_id
+                next_id += 1
+                tracked_objects[match_id] = [x, y, time.time(), False]
+                is_new = True
+            else:
+                tracked_objects[match_id][0] = x
+                tracked_objects[match_id][1] = y
+                tracked_objects[match_id][2] = time.time()
+                
+            active_now.append(match_id)
 
             roi = frame[y1:y2, x1:x2]
             if roi.size == 0:
@@ -95,28 +136,44 @@ while True:
                 # --- DECISION ---
                 if quality >= PASS_THRESHOLD:
                     color = (0, 255, 0)
-                    label = f"{quality:.0f}% (OK)"
+                    status_text = "PASS"
                 elif quality >= VETO_LIMIT:
                     color = (0, 165, 255)
-                    label = f"{quality:.0f}% (LOW)"
+                    status_text = "LOW"
                     bad_oranges += 1
                 else:
                     color = (0, 0, 255)
-                    label = f"{quality:.0f}% (ROT)"
+                    status_text = "REJECT"
                     bad_oranges += 1
+
+                label = f"{quality:.0f}% ({status_text})"
+
+                # Send Telemetry Once per fruit
+                if is_new and not tracked_objects[match_id][3]:
+                    payload = {
+                        "fruit_id": match_id,
+                        "quality": round(quality, 1),
+                        "status": status_text,
+                        "area": int(w * h)
+                    }
+                    threading.Thread(target=send_telemetry, args=(payload,)).start()
+                    tracked_objects[match_id][3] = True # Mark as sent
 
                 # Draw
                 cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
-
-                (w, h), _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.6, 2)
-                cv2.rectangle(frame, (x1, y1 - 25), (x1 + w, y1), color, -1)
-
-                cv2.putText(frame, label, (x1, y1 - 5),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.6,
-                            (255, 255, 255), 2)
+                (lw, lh), _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.6, 2)
+                cv2.rectangle(frame, (x1, y1 - 25), (x1 + lw, y1), color, -1)
+                cv2.putText(frame, label, (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
 
             except Exception as e:
                 print(f"Prediction error: {e}")
+
+    # CLEANUP: Remove objects that haven't been seen for 2 seconds
+    now = time.time()
+    tracked_objects = {
+        k: v for k, v in tracked_objects.items() 
+        if k in active_now or (now - v[2]) < 2.0
+    }
 
     # --- DASHBOARD ---
     cv2.rectangle(frame, (10, 10), (300, 90), (0, 0, 0), -1)
