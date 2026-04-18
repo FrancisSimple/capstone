@@ -1,4 +1,5 @@
 numpy
 tensorflow
+opencv-python
 picamera2
 requests
