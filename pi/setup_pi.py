@@ -29,7 +29,6 @@ def main():
     # Using python3-opencv from apt is the safest way to get cv2 working on a Pi
     apt_deps = [
         "python3-opencv",
-        "python3-tflite-runtime",
         "libgl1",
         "libopenblas-dev",
         "libhdf5-dev",
