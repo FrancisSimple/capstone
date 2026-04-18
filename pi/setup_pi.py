@@ -33,6 +33,7 @@ def main():
         "libopenblas-dev",
         "libhdf5-dev",
         "libqt5gui5",
+        "libcap-dev",
         "python3-venv"
     ]
     apt_command = "apt-get install -y " + " ".join(apt_deps)
