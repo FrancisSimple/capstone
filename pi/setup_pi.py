@@ -29,12 +29,10 @@ def main():
     # Using python3-opencv from apt is the safest way to get cv2 working on a Pi
     apt_deps = [
         "python3-opencv",
-        "libgl1-mesa-glx",
-        "libatlas-base-dev",
+        "libgl1",
+        "libopenblas-dev",
         "libhdf5-dev",
-        "libhdf5-serial-dev",
         "libqt5gui5",
-        "libjasper-dev",
         "python3-venv"
     ]
     apt_command = "apt-get install -y " + " ".join(apt_deps)
