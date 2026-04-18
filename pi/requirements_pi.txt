@@ -1,5 +1,3 @@
 numpy
-opencv-python
-tflite-runtime
 picamera2
 requests

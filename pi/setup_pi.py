@@ -29,6 +29,7 @@ def main():
     # Using python3-opencv from apt is the safest way to get cv2 working on a Pi
     apt_deps = [
         "python3-opencv",
+        "python3-tflite-runtime",
         "libgl1",
         "libopenblas-dev",
         "libhdf5-dev",
@@ -39,10 +40,10 @@ def main():
     run_command(apt_command, use_sudo=True)
     
     # 3. Create a Virtual Environment (Mandatory for newer Raspberry Pi OS)
-    print("\n>>> Setting up Python Virtual Environment...")
+    print("\n>>> Setting up Python Virtual Environment (Inheriting system packages)...")
     venv_dir = "pi_env"
     if not os.path.exists(venv_dir):
-        run_command(f"python3 -m venv {venv_dir}")
+        run_command(f"python3 -m venv --system-site-packages {venv_dir}")
     
     # Prefix pip to use the virtual environment's pip
     pip_exec = f"{venv_dir}/bin/pip"
