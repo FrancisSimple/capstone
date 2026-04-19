@@ -12,6 +12,7 @@ from camera import Camera
 import requests
 import threading
 import time
+from ultralytics import YOLO  # NEW: YOLO for detection
 
 # ==========================================
 # CONFIG
@@ -28,15 +29,19 @@ SERVER_URL = f"http://{PC_IP}:8000/log"
 print(">>> Booting system...")
 print(">>> Loading TFLite model...")
 
-# Load model
+# Load models
 try:
+    # Quality Model (MobileNet)
     interpreter = tf.lite.Interpreter(model_path=MODEL_PATH)
     interpreter.allocate_tensors()
-
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
 
-    print("✅ Model loaded!")
+    # Detection Model (YOLOv8)
+    # Using the .pt file directly - Pi 4/5 can handle Nano reasonably well
+    model_yolo = YOLO('../models/yolo/yolov8n.pt')
+    
+    print("✅ Models loaded!")
 except Exception as e:
     print(f"❌ Model error: {e}")
     exit()
@@ -65,46 +70,35 @@ while True:
         print("❌ No frame received")
         break
 
-    # --- DETECTION ---
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    gray_blurred = cv2.medianBlur(gray, 5)
-
-    circles = cv2.HoughCircles(
-        gray_blurred,
-        cv2.HOUGH_GRADIENT,
-        dp=1,
-        minDist=60,
-        param1=50,
-        param2=35,
-        minRadius=30,
-        maxRadius=150
-    )
-
+    # --- STAGE 1: YOLO DETECTION ---
+    # Class 49 is 'orange' in COCO dataset
+    results = model_yolo.predict(frame, classes=[49], conf=0.4, verbose=False)
+    
     total_oranges = 0
     bad_oranges = 0
     active_now = []
 
-    if circles is not None:
-        circles = np.uint16(np.around(circles))
-
-        for i in circles[0, :]:
-            x, y, radius = i
-            total_oranges += 1
-
-            # Bounding box
-            x1 = max(0, x - radius - 10)
-            y1 = max(0, y - radius - 10)
-            x2 = min(frame.shape[1], x + radius + 10)
-            y2 = min(frame.shape[0], y + radius + 10)
+    for r in results:
+        boxes = r.boxes
+        for box in boxes:
+            # YOLO provides stable coordinates
+            x1, y1, x2, y2 = box.xyxy[0].cpu().numpy().astype(int)
             w = x2 - x1
             h = y2 - y1
+            
+            # Filter noise
+            if w < 30 or h < 30:
+                continue
+
+            cx, cy = x1 + w//2, y1 + h//2
+            total_oranges += 1
 
             # STABLE TRACKING (to prevent duplicate telemetry)
             match_id = None
             for o_id, data in tracked_objects.items():
                 last_x, last_y = data[0], data[1]
-                dist = np.sqrt((x - last_x)**2 + (y - last_y)**2)
-                if dist < 100: # Distance threshold
+                dist = np.sqrt((cx - last_x)**2 + (cy - last_y)**2)
+                if dist < 120: # Distance threshold
                     match_id = o_id
                     break
             
@@ -112,11 +106,11 @@ while True:
             if match_id is None:
                 match_id = next_id
                 next_id += 1
-                tracked_objects[match_id] = [x, y, time.time(), False]
+                tracked_objects[match_id] = [cx, cy, time.time(), False]
                 is_new = True
             else:
-                tracked_objects[match_id][0] = x
-                tracked_objects[match_id][1] = y
+                tracked_objects[match_id][0] = cx
+                tracked_objects[match_id][1] = cy
                 tracked_objects[match_id][2] = time.time()
                 
             active_now.append(match_id)

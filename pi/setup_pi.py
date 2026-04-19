@@ -59,7 +59,7 @@ def main():
     else:
         print("⚠️ requirements_pi.txt not found, installing directly...")
         # Fallback installs
-        run_command(f"{pip_exec} install numpy opencv-python tflite-runtime picamera2 requests")
+        run_command(f"{pip_exec} install numpy opencv-python tensorflow picamera2 requests ultralytics")
 
     print("\n==============================================")
     print("✅ Setup Complete!")
