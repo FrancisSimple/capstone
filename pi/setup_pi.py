@@ -53,15 +53,25 @@ def main():
 
     # 4. Install requirements.txt using the virtual environment
     print("\n>>> Installing Python Libraries...")
-    print(">>> (This includes specific fixes for pandas-stubs and ultralytics)")
-    run_command(f"{pip_exec} install pandas-stubs") # Fix for the error in your image
+    print(">>> (This includes specific fixes for Raspberry Pi ARM architecture)")
+    
+    # Fix 1: Ensure pandas-stubs is there
+    run_command(f"{pip_exec} install pandas-stubs") 
+    
+    # Fix 2: FORCE CPU-ONLY TORCH (Crucial to prevent the CUDA errors you saw)
+    print(">>> Installing CPU-specific PyTorch (to avoid CUDA conflicts)...")
+    run_command(f"{pip_exec} install torch torchvision torchaudio --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu")
+    
+    # Fix 3: Install Ultralytics
+    print(">>> Installing Ultralytics...")
+    run_command(f"{pip_exec} install ultralytics --no-cache-dir")
     
     req_path = "requirements_pi.txt"
     if os.path.exists(req_path):
         run_command(f"{pip_exec} install -r {req_path}")
     else:
-        print("⚠️ requirements_pi.txt not found, installing directly...")
-        run_command(f"{pip_exec} install numpy opencv-python tensorflow picamera2 requests ultralytics")
+        print("⚠️ requirements_pi.txt not found, installing fallback...")
+        run_command(f"{pip_exec} install numpy opencv-python tensorflow picamera2 requests")
 
     print("\n==============================================")
     print("✅ Setup Complete!")

@@ -2,7 +2,19 @@ import cv2
 import numpy as np
 import os
 import warnings
-from ultralytics import YOLO
+import sys
+
+# --- ENVIRONMENT DIAGNOSTIC ---
+try:
+    from ultralytics import YOLO
+except ImportError:
+    print("\n❌ ERROR: 'ultralytics' module not found!")
+    print(f">>> Current Python: {sys.executable}")
+    print(f">>> Searching in: {sys.path}")
+    print("\n💡 FIX: Run 'source pi_env/bin/activate' before running this script.")
+    print("💡 FIX: If already activated, run 'pip install ultralytics'\n")
+    sys.exit(1)
+
 from camera import Camera
 import requests
 import threading
