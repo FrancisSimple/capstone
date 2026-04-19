@@ -77,10 +77,15 @@ while True:
     if frame is None: break
 
     # --- DETECTION ---
-    results = model_yolo.predict(frame, classes=[49], conf=0.4, verbose=False)
+    # Broaden to class 47 (Apple) and 49 (Orange) since they are often confused
+    # Lower confidence to 0.2 to prevent flickering
+    results = model_yolo.predict(frame, classes=[47, 49], conf=0.2, verbose=False)
     
     active_now = []
     for r in results:
+        if len(r.boxes) > 0:
+            print(f">>> Detected {len(r.boxes)} objects")
+        
         for box in r.boxes:
             x1, y1, x2, y2 = box.xyxy[0].cpu().numpy().astype(int)
             w, h = x2 - x1, y2 - y1
