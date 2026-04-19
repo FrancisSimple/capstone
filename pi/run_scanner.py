@@ -15,6 +15,7 @@ except ImportError:
     print("💡 FIX: If already activated, run 'pip install ultralytics'\n")
     sys.exit(1)
 
+import tensorflow as tf
 from camera import Camera
 import requests
 import threading
