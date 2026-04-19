@@ -1,5 +1,12 @@
 import cv2
 import numpy as np
+import os
+import warnings
+
+# Suppress TensorFlow warnings
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+warnings.filterwarnings('ignore', category=UserWarning, module='tensorflow')
+
 import tensorflow as tf
 from camera import Camera
 import requests
@@ -15,7 +22,7 @@ VETO_LIMIT = 40
 
 # --- NETWORK CONFIG ---
 # UPDATE THIS TO YOUR DESKTOP'S LOCAL IP ADDRESS
-PC_IP = "192.168.1.100" 
+PC_IP = "10.73.56.145" 
 SERVER_URL = f"http://{PC_IP}:8000/log"
 
 print(">>> Booting system...")
