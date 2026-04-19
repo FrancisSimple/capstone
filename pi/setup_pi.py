@@ -53,12 +53,14 @@ def main():
 
     # 4. Install requirements.txt using the virtual environment
     print("\n>>> Installing Python Libraries...")
+    print(">>> (This includes specific fixes for pandas-stubs and ultralytics)")
+    run_command(f"{pip_exec} install pandas-stubs") # Fix for the error in your image
+    
     req_path = "requirements_pi.txt"
     if os.path.exists(req_path):
         run_command(f"{pip_exec} install -r {req_path}")
     else:
         print("⚠️ requirements_pi.txt not found, installing directly...")
-        # Fallback installs
         run_command(f"{pip_exec} install numpy opencv-python tensorflow picamera2 requests ultralytics")
 
     print("\n==============================================")

@@ -3,4 +3,4 @@ tensorflow
 opencv-python
 picamera2
 requests
-ultralytics
+ultralytics
