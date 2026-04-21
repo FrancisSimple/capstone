@@ -149,7 +149,7 @@ with st.sidebar:
                     if "error" in result:
                         st.error(f"❌ Pi Bridge Error: {result['error']}")
                         p_status.update(label="Inference Logic Error", state="error")
-                        return
+                        st.stop()
 
                     st.write("2. Edge Inference Complete.")
                     # Robust key access
