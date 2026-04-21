@@ -48,12 +48,16 @@ def load_models():
 
 def mqtt_loop():
     client = mqtt.Client()
+    msg_count = 0
     def on_message(c, u, msg):
-        global latest_gas_raw
+        global latest_gas_raw, msg_count
         try:
             latest_gas_raw = json.loads(msg.payload.decode())
-        except:
-            pass
+            msg_count += 1
+            if msg_count % 10 == 0:
+                print(f"📥 [MQTT] Received data from ESP32: {latest_gas_raw}")
+        except Exception as e:
+            print(f"⚠️ [MQTT] Data Parse Error: {e}")
     client.on_message = on_message
     try:
         client.connect(MQTT_BROKER, MQTT_PORT)
