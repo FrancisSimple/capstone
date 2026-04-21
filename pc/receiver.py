@@ -1,4 +1,5 @@
-from fastapi import FastAPI, responses, JSONResponse
+from fastapi import FastAPI, responses
+from fastapi.responses import JSONResponse
 import uvicorn
 from pydantic import BaseModel
 import pandas as pd
@@ -11,8 +12,7 @@ from datetime import datetime
 app = FastAPI(title="Industrial Orange Sorter - Raw Data Logger")
 
 # --- PI CONFIG ---
-PI_IP = "10.73.56.103"  # Default Pi IP (Dashboard will use its own)
-PI_BRIDGE_URL = f"http://{PI_IP}:8001"
+PI_BRIDGE_URL = "http://10.73.56.103:8001" # Default, updated by dashboard
 
 # --- PATHS ---
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -105,6 +105,13 @@ init_files()
 @app.get("/status")
 async def get_status():
     return system_status
+
+@app.post("/config/pi_ip")
+async def set_pi_ip(ip: str):
+    global PI_BRIDGE_URL
+    PI_BRIDGE_URL = f"http://{ip}:8001"
+    print(f"[CONFIG] Pi Bridge URL updated to: {PI_BRIDGE_URL}")
+    return {"message": "success", "url": PI_BRIDGE_URL}
 
 @app.post("/toggle/{system}/{state}")
 async def toggle_system(system: str, state: bool):
