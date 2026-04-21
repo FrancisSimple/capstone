@@ -87,10 +87,11 @@ def on_message(client, userdata, msg):
         X_scaled = scaler.transform(features)
         prediction = float(model.predict(X_scaled)[0])
         
-        # 6. Forward to PC Receiver
+        # 6. Forward CONSOLIDATED Package to PC Receiver
+        # (Score + Temp + Hum only, as raw data is processed locally on Pi)
         payload = {
-            "mq2": mq2_raw, "mq3": mq3_raw, "mq135": mq135_raw,
-            "temperature": temp, "humidity": hum,
+            "temperature": temp, 
+            "humidity": hum,
             "health_score": prediction
         }
         
