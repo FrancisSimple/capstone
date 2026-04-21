@@ -31,6 +31,7 @@ latest_gas_raw = {
     "mq2": 0, "mq3": 0, "mq135": 0, 
     "temperature": 25, "humidity": 50
 }
+msg_count = 0
 
 models = {}
 
@@ -48,7 +49,6 @@ def load_models():
 
 def mqtt_loop():
     client = mqtt.Client()
-    msg_count = 0
     def on_message(c, u, msg):
         global latest_gas_raw, msg_count
         try:
