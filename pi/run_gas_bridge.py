@@ -65,12 +65,14 @@ def mqtt_loop():
 
 # ================= ENDPOINTS =================
 @app.post("/trigger")
-async def trigger_intelligence():
+async def trigger_intelligence(index: int = -1):
     """
     Called by the PC Dashboard. 
-    Synchronizes latest gas and vision data, runs local inference, and returns final telemetry.
+    Synchronizes latest gas and specified fruit index, runs local inference.
     """
-    print("\n🚀 [TRIGGER] Starting Local Intelligence Inference...")
+    print(f"\n🚀 [TRIGGER] Starting Inference for Index {index}...")
+    
+    # ... (rest of logic)
     
     # 1. Get latest gas values from background MQTT thread
     gas_data = latest_gas_raw
@@ -103,7 +105,10 @@ async def trigger_intelligence():
         if df_v.empty:
             return {"error": "Vision log is empty."}
             
-        v_latest = df_v.iloc[-1]
+        # Use provided index, or fallback to latest if -1
+        target_pos = index if (index >= 0 and index < len(df_v)) else -1
+        v_latest = df_v.iloc[target_pos]
+        
         vision_quality = float(v_latest['Quality'])
         area = float(v_latest['Area'])
         fruit_id = int(v_latest['Fruit_ID'])
