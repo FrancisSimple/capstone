@@ -21,8 +21,8 @@ RECEIVER_URL  = f"http://{PC_IP}:8000/log_gas"
 MODEL_PATH    = "../models/gas/orange_quality_rf_model.pkl"
 SCALER_PATH   = "../models/gas/orange_sensor_scaler.pkl"
 
-# Feature order MUST match partner's code
-FEATURE_ORDER = ["mq2", "mq3", "mq135", "temperature", "humidity"]
+# Feature order MUST match the trained scaler's expectations
+FEATURE_ORDER = ['MQ2', 'MQ3', 'MQ135', 'Temperature', 'Humidity', 'Gas_Sum', 'MQ3_Ratio', 'Temp_Hum_Index']
 
 # ================= LOAD MODELS =================
 try:
@@ -66,15 +66,31 @@ def on_message(client, userdata, msg):
         # 3. Always update latest state for sync, but only forward if ACTIVE
         active = is_active()
         
-        # 4. Build feature vector
-        features = np.array([[data[f] for f in FEATURE_ORDER]])
+        # 4. Feature Engineering (Derived features required by the 8-feature model)
+        # Assuming Arduino is now sending Raw ADC counts as 'mq2', 'mq3', 'mq135'
+        mq2_raw   = float(data['mq2'])
+        mq3_raw   = float(data['mq3'])
+        mq135_raw = float(data['mq135'])
+        temp      = float(data['temperature'])
+        hum       = float(data['humidity'])
+        
+        # Calculate the "Stuff" (Derived Features)
+        gas_sum   = mq2_raw + mq3_raw + mq135_raw
+        mq3_ratio = mq3_raw / (mq2_raw + 0.001)
+        th_index  = (temp * hum) / 100.0
+        
+        # Build vector in the exact order the scaler was trained on
+        feature_values = [mq2_raw, mq3_raw, mq135_raw, temp, hum, gas_sum, mq3_ratio, th_index]
+        features = pd.DataFrame([feature_values], columns=FEATURE_ORDER)
+        
+        # 5. Transform and Predict
         X_scaled = scaler.transform(features)
         prediction = float(model.predict(X_scaled)[0])
         
-        # 5. Forward to PC Receiver
+        # 6. Forward to PC Receiver
         payload = {
-            "mq2": float(data['mq2']), "mq3": float(data['mq3']), "mq135": float(data['mq135']),
-            "temperature": float(data['temperature']), "humidity": float(data['humidity']),
+            "mq2": mq2_raw, "mq3": mq3_raw, "mq135": mq135_raw,
+            "temperature": temp, "humidity": hum,
             "health_score": prediction
         }
         
