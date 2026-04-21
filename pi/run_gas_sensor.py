@@ -43,7 +43,7 @@ def on_connect(client, userdata, flags, rc):
 
 def is_active():
     try:
-        r = requests.get(f"http://{PC_IP}:8000/status", timeout=0.5).json()
+        r = requests.get(f"http://{PC_IP}:8000/status", timeout=2.0).json()
         return r.get("gas_active", False)
     except:
         return False
@@ -83,30 +83,58 @@ def on_message(client, userdata, msg):
         feature_values = [mq2_raw, mq3_raw, mq135_raw, temp, hum, gas_sum, mq3_ratio, th_index]
         features = pd.DataFrame([feature_values], columns=FEATURE_ORDER)
         
-        # 5. Transform and Predict
+        # 5. Transform and High-Precision Predict
         X_scaled = scaler.transform(features)
-        prediction = float(model.predict(X_scaled)[0])
+        
+        # Verbose Debug Logging (Deep Analysis as requested)
+        print("\n" + "🔍" + " DATA ANALYSIS " + "🔍")
+        print(f"--- [RAW INPUTS] ---")
+        print(f"MQ2: {mq2_raw:7.1f} | MQ3: {mq3_raw:7.1f} | MQ135: {mq135_raw:7.1f}")
+        print(f"Temp: {temp:6.1f}C | Hum: {hum:6.1f}%")
+        
+        print(f"--- [FEATURES (ENGINEERED)] ---")
+        print(f"Gas_Sum: {gas_sum:7.1f} | MQ3_Ratio: {mq3_ratio:8.4f} | TH_Index: {th_index:8.4f}")
+        
+        print(f"--- [FEATURES (SCALED FOR MODEL)] ---")
+        # Flatten and print the scaled numbers to see if they look biased
+        scaled_vals = X_scaled[0]
+        print(f"{scaled_vals}")
+        
+        # Get Probabilities [Class 0, Class 1, Class 2]
+        probs = model.predict_proba(X_scaled)[0]
+        print(f"--- [MODEL CONFIDENCE] ---")
+        for i, p in enumerate(probs):
+            print(f"Class {i}: {p*100:5.1f}%")
+            
+        # Calculate Weighted Health Percentage
+        # Using [0=Bad, 1=Medium, 2=Fresh] mapping
+        # Health = (Prob[1]*50 + Prob[2]*100)
+        health_percentage = (probs[1] * 50.0) + (probs[2] * 100.0)
+        
+        print(f"--- [FINAL RESULT] ---")
+        print(f"OVERALL FRUIT HEALTH: {health_percentage:.1f}%")
+        print("="*30 + "\n")
         
         # 6. Forward CONSOLIDATED Package to PC Receiver
-        # (Score + Temp + Hum only, as raw data is processed locally on Pi)
         payload = {
             "temperature": temp, 
             "humidity": hum,
-            "health_score": prediction
+            "health_score": round(health_percentage, 2)
         }
         
-        # We always post to /log_gas to keep latest_gas_state updated in receiver for sync,
-        # but receiver will handle the 'inactive' state for logging to csv.
-        requests.post(RECEIVER_URL, json=payload, timeout=0.5)
+        # Post to PC
+        requests.post(RECEIVER_URL, json=payload, timeout=2.0)
         last_send_time = now
         
         if active:
-            print(f"[GAS] MQ2: {data['mq2']} | Health: {prediction:.1f}% (ACTIVE)")
+            print(f"🚀 SUCCESS: Sent {health_percentage:.1f}% to PC")
         else:
-            print(f"[GAS] Environmental data updated (IDLE)")
+            print(f"📡 IDLE: Updated status background")
             
     except Exception as e:
         print(f"[ERROR] Bridge Processing: {e}")
+        import traceback
+        traceback.print_exc()
 
 # ================= RUN =================
 client = mqtt.Client()
