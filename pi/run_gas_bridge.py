@@ -158,7 +158,8 @@ async def trigger_intelligence(index: int = -1):
         "Humidity": hum,
         "Phase": phase,
         "Days_Left": round(days_left, 1),
-        "Status": life_status
+        "Status": life_status,       # Legacy support
+        "Life_Status": life_status   # Descriptive
     }
     
     print("✅ [SUCCESS] Final Intelligence Package Generated.")
