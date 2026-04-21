@@ -20,6 +20,8 @@ from camera import Camera
 import requests
 import threading
 import time
+import csv
+from datetime import datetime
 
 # Suppress warnings
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -36,6 +38,7 @@ VETO_LIMIT = 40
 # --- NETWORK CONFIG ---
 PC_IP = "10.73.56.145" 
 SERVER_URL = f"http://{PC_IP}:8000/log"
+LOG_PATH = "data/vision_raw.csv"
 
 print(">>> Booting system...")
 print(">>> Loading Models...")
@@ -68,6 +71,18 @@ def send_telemetry(payload):
         requests.post(SERVER_URL, json=payload, timeout=1.0)
     except:
         pass
+
+def log_locally(fruit_id, quality, area, status):
+    try:
+        os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
+        file_exists = os.path.isfile(LOG_PATH)
+        with open(LOG_PATH, 'a', newline='') as f:
+            writer = csv.writer(f)
+            if not file_exists:
+                writer.writerow(["Timestamp", "Fruit_ID", "Quality", "Area", "Status"])
+            writer.writerow([datetime.now().strftime("%H:%M:%S"), fruit_id, quality, area, status])
+    except Exception as e:
+        print(f"❌ Log Error: {e}")
 
 def is_active():
     try:
@@ -145,6 +160,7 @@ while True:
                     if is_new and not tracked_objects[match_id][3]:
                         payload = {"fruit_id": match_id, "quality": round(quality, 1), "status": status, "area": int(w*h)}
                         threading.Thread(target=send_telemetry, args=(payload,)).start()
+                        log_locally(match_id, round(quality, 1), int(w*h), status)
                         tracked_objects[match_id][3] = True
 
                     # Draw
