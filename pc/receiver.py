@@ -1,14 +1,18 @@
-from fastapi import FastAPI, responses, responses as fastapi_responses
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, responses, JSONResponse
 import uvicorn
 from pydantic import BaseModel
 import pandas as pd
 import os
 import joblib
 import numpy as np
+import requests
 from datetime import datetime
 
 app = FastAPI(title="Industrial Orange Sorter - Raw Data Logger")
+
+# --- PI CONFIG ---
+PI_IP = "10.73.56.103"  # Default Pi IP (Dashboard will use its own)
+PI_BRIDGE_URL = f"http://{PI_IP}:8001"
 
 # --- PATHS ---
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -219,10 +223,14 @@ async def log_orange(data: OrangeData):
     header_needed = not os.path.exists(VISION_RAW_FILE) or os.path.getsize(VISION_RAW_FILE) == 0
     v_row.to_csv(VISION_RAW_FILE, mode='a', header=header_needed, index=False)
     
-    # [DECOUPLED] We no longer log to GAS_RAW_FILE here. 
-    # The user will click 'Capture' separately.
+    # 2. Forward to Pi (So Pi can sync gas to this fruit later)
+    try:
+        requests.post(f"{PI_BRIDGE_URL}/log_vision", json=data.dict(), timeout=1)
+        print(f"VISION: Forwarded Fruit #{data.fruit_id} to Pi")
+    except:
+        print(f"VISION: [WARNING] Could not forward to Pi (Is it running?)")
     
-    print(f"VISION: Logged Fruit #{data.fruit_id}")
+    print(f"VISION: Logged Fruit #{data.fruit_id} on PC")
     return {"message": "success"}
 
 @app.post("/log_gas")

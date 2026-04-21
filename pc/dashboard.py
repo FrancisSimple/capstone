@@ -144,8 +144,14 @@ with st.sidebar:
                 resp = requests.post(f"{PI_BRIDGE_URL}/trigger?index={next_index}", timeout=30)
                 if resp.status_code == 200:
                     result = resp.json()
-                    st.write("2. Edge Inference Complete.")
                     
+                    # 2. Check for Logic Errors / Sync Errors from Pi
+                    if "error" in result:
+                        st.error(f"❌ Pi Bridge Error: {result['error']}")
+                        p_status.update(label="Inference Logic Error", state="error")
+                        return
+
+                    st.write("2. Edge Inference Complete.")
                     # Robust key access
                     display_status = result.get('Life_Status', result.get('Status', 'Unknown'))
                     st.write(f"   -> Result: {display_status} ({result.get('Days_Left', 0)} days)")

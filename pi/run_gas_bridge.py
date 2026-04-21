@@ -165,6 +165,29 @@ async def trigger_intelligence(index: int = -1):
     print("✅ [SUCCESS] Final Intelligence Package Generated.")
     return result
 
+@app.post("/log_vision")
+async def log_vision_from_pc(data: dict):
+    """
+    Receives forwarded vision data from the PC Receiver.
+    Ensures the Pi has the same vision history for index-based matching.
+    """
+    try:
+        timestamp = datetime.now().strftime("%H:%M:%S")
+        v_row = pd.DataFrame([{
+            "Timestamp": timestamp, 
+            "Fruit_ID": data.get("fruit_id"), 
+            "Quality": data.get("quality"), 
+            "Status": data.get("status"), 
+            "Area": data.get("area")
+        }])
+        header_needed = not os.path.exists(LOG_PATH) or os.path.getsize(LOG_PATH) == 0
+        v_row.to_csv(LOG_PATH, mode='a', header=header_needed, index=False)
+        print(f"📥 [SYNC] Received Fruit #{data.get('fruit_id')} from PC")
+        return {"message": "success"}
+    except Exception as e:
+        print(f"❌ [SYNC] Error logging vision: {e}")
+        return {"message": "error", "detail": str(e)}
+
 @app.get("/ping")
 async def ping():
     return {"message": "pong"}
