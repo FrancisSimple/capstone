@@ -71,7 +71,7 @@ def main():
         run_command(f"{pip_exec} install -r {req_path}")
     else:
         print("⚠️ requirements_pi.txt not found, installing fallback...")
-        run_command(f"{pip_exec} install numpy opencv-python tensorflow picamera2 requests")
+        run_command(f"{pip_exec} install numpy opencv-python tensorflow picamera2 requests ultralytics scikit-learn joblib pandas paho-mqtt")
 
     print("\n==============================================")
     print("✅ Setup Complete!")

@@ -69,12 +69,27 @@ def send_telemetry(payload):
     except:
         pass
 
+def is_active():
+    try:
+        r = requests.get(f"http://{PC_IP}:8000/status", timeout=0.5).json()
+        return r.get("vision_active", False)
+    except:
+        return False
+
 # ==========================================
 # MAIN LOOP
 # ==========================================
 while True:
     frame = camera.get_frame()
     if frame is None: break
+
+    # --- CHECK ACTIVATION ---
+    if not is_active():
+        cv2.putText(frame, "IDLE - ACTIVATE ON DASHBOARD", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
+        cv2.imshow("Scanner", frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'): break
+        time.sleep(1)
+        continue
 
     # --- DETECTION ---
     # Broaden to class 47 (Apple) and 49 (Orange) since they are often confused

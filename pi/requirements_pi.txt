@@ -4,3 +4,7 @@ opencv-python
 picamera2
 requests
 ultralytics
+scikit-learn
+joblib
+pandas
+paho-mqtt
