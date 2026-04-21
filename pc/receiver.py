@@ -8,6 +8,7 @@ import joblib
 import numpy as np
 import requests
 from datetime import datetime
+import traceback
 
 app = FastAPI(title="Industrial Orange Sorter - Raw Data Logger")
 
@@ -170,7 +171,7 @@ async def run_analysis():
 
 @app.post("/record_final")
 async def record_final(data: FinalPackage):
-    print(f"\n📥 [RECEIVER] Final Package Received for Fruit #{data.Fruit_ID}")
+    print(f"\n[RECEIVER] Final Package Received for Fruit #{data.Fruit_ID}")
     try:
         timestamp = datetime.now().strftime("%H:%M:%S")
         row = pd.DataFrame([{
@@ -189,14 +190,17 @@ async def record_final(data: FinalPackage):
         
         # Save with retry/error handling
         row.to_csv(LIVE_TELEMETRY_FILE, mode='a', header=header_needed, index=False)
-        print(f"✅ [LOGGER] Successfully Recorded Fruit #{data.Fruit_ID} to live_telemetry.csv")
+        print(f"[LOGGER] Successfully Recorded Fruit #{data.Fruit_ID} to live_telemetry.csv")
         return {"message": "success"}
     except PermissionError:
-        print(f"❌ [LOGGER] Permission Error: Could not write to {LIVE_TELEMETRY_FILE}. Is it open in Excel?")
+        print(f"[LOGGER] Permission Error: Could not write to {LIVE_TELEMETRY_FILE}. Is it open in Excel?")
         return JSONResponse(status_code=500, content={"message": "File Lock Error (Is Excel open?)"})
     except Exception as e:
-        print(f"❌ [LOGGER] Persistence Error: {e}")
-        return JSONResponse(status_code=500, content={"message": str(e)})
+        error_msg = traceback.format_exc()
+        print(f"[LOGGER] Persistence Error:\n{error_msg}")
+        with open("receiver_error.log", "a") as f:
+            f.write(f"\n--- ERROR AT {datetime.now()} ---\n{error_msg}\n")
+        return JSONResponse(status_code=500, content={"message": str(e), "traceback": "Check receiver_error.log"})
 
 @app.post("/capture_gas")
 async def capture_gas_snapshot():
