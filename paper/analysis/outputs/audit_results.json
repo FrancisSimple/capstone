@@ -1,0 +1,890 @@
+{
+ "inventory": [
+  {
+   "file": "fully_labeled_by_teacher.csv",
+   "rows": 8819,
+   "columns": [
+    "Vision_Quality",
+    "Area",
+    "Gas_Quality",
+    "Humidity",
+    "Temperature",
+    "Shelf_Life_Days",
+    "Spoilage_Phase"
+   ]
+  },
+  {
+   "file": "gas_data.csv",
+   "rows": 1071,
+   "columns": [
+    "Date",
+    "Time",
+    "Millis",
+    "Sensor1",
+    "Sensor2"
+   ]
+  },
+  {
+   "file": "gas_raw.csv",
+   "rows": 1,
+   "columns": [
+    "Timestamp",
+    "Gas_Quality",
+    "Temp",
+    "Hum"
+   ]
+  },
+  {
+   "file": "gas_telemetry.csv",
+   "rows": 275,
+   "columns": [
+    "Timestamp",
+    "Gas_Quality",
+    "Temp",
+    "Hum"
+   ]
+  },
+  {
+   "file": "gastemp_data.csv",
+   "rows": 3037,
+   "columns": [
+    "Timestamp",
+    "MQ2",
+    "MQ3",
+    "MQ135",
+    "Temperature",
+    "Humidity"
+   ]
+  },
+  {
+   "file": "live_telemetry.csv",
+   "rows": 1,
+   "columns": [
+    "Timestamp",
+    "Fruit_ID",
+    "Quality",
+    "Status",
+    "Area",
+    "Gas_Env_Score",
+    "Days_Left",
+    "Life_Status"
+   ]
+  },
+  {
+   "file": "mediumgastemp_data.csv",
+   "rows": 3144,
+   "columns": [
+    "Timestamp",
+    "MQ2",
+    "MQ3",
+    "MQ135",
+    "Temperature",
+    "Humidity"
+   ]
+  },
+  {
+   "file": "new.csv",
+   "rows": 133,
+   "columns": [
+    "Timestamp",
+    "MQ2",
+    "MQ3",
+    "MQ135",
+    "Temperature",
+    "Humidity"
+   ]
+  },
+  {
+   "file": "orange_quality_data.csv",
+   "rows": 1247,
+   "columns": [
+    "Timestamp",
+    "Session_ID",
+    "Fruit_ID",
+    "Quality",
+    "Area",
+    "Status"
+   ]
+  },
+  {
+   "file": "original_with_missing_labels.csv",
+   "rows": 8819,
+   "columns": [
+    "Vision_Quality",
+    "Area",
+    "Gas_Quality",
+    "Humidity",
+    "Temperature",
+    "Shelf_Life_Days",
+    "Spoilage_Phase"
+   ]
+  },
+  {
+   "file": "spoiltgastemp_data.csv",
+   "rows": 2638,
+   "columns": [
+    "Timestamp",
+    "MQ2",
+    "MQ3",
+    "MQ135",
+    "Temperature",
+    "Humidity"
+   ]
+  },
+  {
+   "file": "vision_raw.csv",
+   "rows": 11,
+   "columns": [
+    "Timestamp",
+    "Fruit_ID",
+    "Quality",
+    "Status",
+    "Area"
+   ]
+  }
+ ],
+ "images": {
+  "real/fresh": 25,
+  "real/rotten": 11,
+  "training/new_data_regression": 39
+ },
+ "runs": {
+  "fresh": {
+   "file": "gastemp_data.csv",
+   "rows": 3037,
+   "first": "2026-03-29 18:17:09",
+   "last": "2026-03-30 23:10:14",
+   "wall_clock_hours": 28.88,
+   "recorded_hours": 4.15,
+   "segments": 11,
+   "median_interval_s": 5.0,
+   "exact_duplicate_rows": 105,
+   "zero_readings_frac": {
+    "MQ2": 0.0227,
+    "MQ3": 0.0003,
+    "MQ135": 0.621
+   },
+   "adc_max_observed": 1937,
+   "temp_mean": 28.59,
+   "temp_min": 27.8,
+   "temp_max": 29.8,
+   "hum_mean": 75.04,
+   "hum_min": 69.9,
+   "hum_max": 78.1,
+   "sensor_mean": {
+    "MQ2": 50.3,
+    "MQ3": 550.6,
+    "MQ135": 6.2
+   },
+   "sensor_sd": {
+    "MQ2": 18.4,
+    "MQ3": 304.5,
+    "MQ135": 16.9
+   }
+  },
+  "medium": {
+   "file": "mediumgastemp_data.csv",
+   "rows": 3144,
+   "first": "2026-03-29 23:40:03",
+   "last": "2026-03-30 18:18:04",
+   "wall_clock_hours": 18.63,
+   "recorded_hours": 4.31,
+   "segments": 12,
+   "median_interval_s": 5.0,
+   "exact_duplicate_rows": 73,
+   "zero_readings_frac": {
+    "MQ2": 0.0041,
+    "MQ3": 0.0003,
+    "MQ135": 0.006
+   },
+   "adc_max_observed": 1817,
+   "temp_mean": 29.2,
+   "temp_min": 27.5,
+   "temp_max": 29.9,
+   "hum_mean": 69.67,
+   "hum_min": 67.4,
+   "hum_max": 74.9,
+   "sensor_mean": {
+    "MQ2": 82.5,
+    "MQ3": 1163.5,
+    "MQ135": 85.8
+   },
+   "sensor_sd": {
+    "MQ2": 48.3,
+    "MQ3": 412.0,
+    "MQ135": 51.4
+   }
+  },
+  "spoilt": {
+   "file": "spoiltgastemp_data.csv",
+   "rows": 2638,
+   "first": "2026-03-30 23:12:06",
+   "last": "2026-03-31 03:04:39",
+   "wall_clock_hours": 3.88,
+   "recorded_hours": 3.67,
+   "segments": 3,
+   "median_interval_s": 5.0,
+   "exact_duplicate_rows": 3,
+   "zero_readings_frac": {
+    "MQ2": 0.0019,
+    "MQ3": 0.0,
+    "MQ135": 0.0118
+   },
+   "adc_max_observed": 2647,
+   "temp_mean": 27.92,
+   "temp_min": 26.8,
+   "temp_max": 28.6,
+   "hum_mean": 79.35,
+   "hum_min": 76.9,
+   "hum_max": 82.0,
+   "sensor_mean": {
+    "MQ2": 192.2,
+    "MQ3": 2382.5,
+    "MQ135": 103.3
+   },
+   "sensor_sd": {
+    "MQ2": 28.5,
+    "MQ3": 175.6,
+    "MQ135": 22.8
+   }
+  }
+ },
+ "segments": [
+  {
+   "cls": "fresh",
+   "segment": 0,
+   "start": "2026-03-29 18:17:09",
+   "end": "2026-03-29 18:21:32",
+   "rows": 52,
+   "minutes": 4.4
+  },
+  {
+   "cls": "fresh",
+   "segment": 1,
+   "start": "2026-03-29 18:25:23",
+   "end": "2026-03-29 18:54:09",
+   "rows": 342,
+   "minutes": 28.8
+  },
+  {
+   "cls": "fresh",
+   "segment": 2,
+   "start": "2026-03-29 19:50:09",
+   "end": "2026-03-29 20:01:02",
+   "rows": 171,
+   "minutes": 10.9
+  },
+  {
+   "cls": "fresh",
+   "segment": 3,
+   "start": "2026-03-29 20:52:56",
+   "end": "2026-03-29 21:03:18",
+   "rows": 122,
+   "minutes": 10.4
+  },
+  {
+   "cls": "fresh",
+   "segment": 4,
+   "start": "2026-03-29 21:51:52",
+   "end": "2026-03-29 22:16:18",
+   "rows": 353,
+   "minutes": 24.4
+  },
+  {
+   "cls": "fresh",
+   "segment": 5,
+   "start": "2026-03-29 23:36:11",
+   "end": "2026-03-29 23:37:18",
+   "rows": 12,
+   "minutes": 1.1
+  },
+  {
+   "cls": "fresh",
+   "segment": 6,
+   "start": "2026-03-30 18:21:27",
+   "end": "2026-03-30 18:32:18",
+   "rows": 127,
+   "minutes": 10.8
+  },
+  {
+   "cls": "fresh",
+   "segment": 7,
+   "start": "2026-03-30 18:39:30",
+   "end": "2026-03-30 18:39:30",
+   "rows": 4,
+   "minutes": 0.0
+  },
+  {
+   "cls": "fresh",
+   "segment": 8,
+   "start": "2026-03-30 20:17:10",
+   "end": "2026-03-30 21:04:35",
+   "rows": 551,
+   "minutes": 47.4
+  },
+  {
+   "cls": "fresh",
+   "segment": 9,
+   "start": "2026-03-30 21:06:24",
+   "end": "2026-03-30 22:22:10",
+   "rows": 894,
+   "minutes": 75.8
+  },
+  {
+   "cls": "fresh",
+   "segment": 10,
+   "start": "2026-03-30 22:35:21",
+   "end": "2026-03-30 23:10:14",
+   "rows": 409,
+   "minutes": 34.9
+  },
+  {
+   "cls": "medium",
+   "segment": 0,
+   "start": "2026-03-29 23:40:03",
+   "end": "2026-03-29 23:52:01",
+   "rows": 143,
+   "minutes": 12.0
+  },
+  {
+   "cls": "medium",
+   "segment": 1,
+   "start": "2026-03-30 01:52:22",
+   "end": "2026-03-30 02:03:45",
+   "rows": 133,
+   "minutes": 11.4
+  },
+  {
+   "cls": "medium",
+   "segment": 2,
+   "start": "2026-03-30 07:26:46",
+   "end": "2026-03-30 07:44:12",
+   "rows": 206,
+   "minutes": 17.4
+  },
+  {
+   "cls": "medium",
+   "segment": 3,
+   "start": "2026-03-30 09:12:58",
+   "end": "2026-03-30 09:28:54",
+   "rows": 189,
+   "minutes": 15.9
+  },
+  {
+   "cls": "medium",
+   "segment": 4,
+   "start": "2026-03-30 11:17:17",
+   "end": "2026-03-30 11:38:11",
+   "rows": 242,
+   "minutes": 20.9
+  },
+  {
+   "cls": "medium",
+   "segment": 5,
+   "start": "2026-03-30 11:43:23",
+   "end": "2026-03-30 11:53:50",
+   "rows": 118,
+   "minutes": 10.4
+  },
+  {
+   "cls": "medium",
+   "segment": 6,
+   "start": "2026-03-30 12:47:11",
+   "end": "2026-03-30 12:47:48",
+   "rows": 6,
+   "minutes": 0.6
+  },
+  {
+   "cls": "medium",
+   "segment": 7,
+   "start": "2026-03-30 14:36:09",
+   "end": "2026-03-30 14:40:59",
+   "rows": 59,
+   "minutes": 4.8
+  },
+  {
+   "cls": "medium",
+   "segment": 8,
+   "start": "2026-03-30 14:52:49",
+   "end": "2026-03-30 15:31:26",
+   "rows": 464,
+   "minutes": 38.6
+  },
+  {
+   "cls": "medium",
+   "segment": 9,
+   "start": "2026-03-30 15:37:20",
+   "end": "2026-03-30 17:31:58",
+   "rows": 1370,
+   "minutes": 114.6
+  },
+  {
+   "cls": "medium",
+   "segment": 10,
+   "start": "2026-03-30 17:37:28",
+   "end": "2026-03-30 17:47:56",
+   "rows": 200,
+   "minutes": 10.5
+  },
+  {
+   "cls": "medium",
+   "segment": 11,
+   "start": "2026-03-30 18:16:52",
+   "end": "2026-03-30 18:18:04",
+   "rows": 14,
+   "minutes": 1.2
+  },
+  {
+   "cls": "spoilt",
+   "segment": 0,
+   "start": "2026-03-30 23:12:06",
+   "end": "2026-03-30 23:41:18",
+   "rows": 351,
+   "minutes": 29.2
+  },
+  {
+   "cls": "spoilt",
+   "segment": 1,
+   "start": "2026-03-30 23:50:37",
+   "end": "2026-03-31 00:33:32",
+   "rows": 514,
+   "minutes": 42.9
+  },
+  {
+   "cls": "spoilt",
+   "segment": 2,
+   "start": "2026-03-31 00:36:42",
+   "end": "2026-03-31 03:04:39",
+   "rows": 1773,
+   "minutes": 147.9
+  }
+ ],
+ "gas_total_rows": 8819,
+ "gas_total_recorded_hours": 12.13,
+ "run_sequence": [
+  "fresh:03-29 18:17",
+  "fresh:03-29 18:25",
+  "fresh:03-29 19:50",
+  "fresh:03-29 20:52",
+  "fresh:03-29 21:51",
+  "fresh:03-29 23:36",
+  "medium:03-29 23:40",
+  "medium:03-30 01:52",
+  "medium:03-30 07:26",
+  "medium:03-30 09:12",
+  "medium:03-30 11:17",
+  "medium:03-30 11:43",
+  "medium:03-30 12:47",
+  "medium:03-30 14:36",
+  "medium:03-30 14:52",
+  "medium:03-30 15:37",
+  "medium:03-30 17:37",
+  "medium:03-30 18:16",
+  "fresh:03-30 18:21",
+  "fresh:03-30 18:39",
+  "fresh:03-30 20:17",
+  "fresh:03-30 21:06",
+  "fresh:03-30 22:35",
+  "spoilt:03-30 23:12",
+  "spoilt:03-30 23:50",
+  "spoilt:03-31 00:36"
+ ],
+ "ess": {
+  "fresh": {
+   "MQ2": {
+    "rho1_median": 0.064,
+    "n_eff": 2478.1
+   },
+   "MQ3": {
+    "rho1_median": 0.382,
+    "n_eff": 1289.3
+   },
+   "MQ135": {
+    "rho1_median": 0.03,
+    "n_eff": 2628.5
+   },
+   "Temperature": {
+    "rho1_median": 0.616,
+    "n_eff": 771.4
+   },
+   "Humidity": {
+    "rho1_median": 0.835,
+    "n_eff": 282.0
+   }
+  },
+  "medium": {
+   "MQ2": {
+    "rho1_median": 0.252,
+    "n_eff": 1433.8
+   },
+   "MQ3": {
+    "rho1_median": 0.674,
+    "n_eff": 659.2
+   },
+   "MQ135": {
+    "rho1_median": 0.294,
+    "n_eff": 1481.4
+   },
+   "Temperature": {
+    "rho1_median": 0.673,
+    "n_eff": 685.3
+   },
+   "Humidity": {
+    "rho1_median": 0.797,
+    "n_eff": 311.2
+   }
+  },
+  "spoilt": {
+   "MQ2": {
+    "rho1_median": 0.433,
+    "n_eff": 1087.1
+   },
+   "MQ3": {
+    "rho1_median": 0.702,
+    "n_eff": 495.7
+   },
+   "MQ135": {
+    "rho1_median": 0.315,
+    "n_eff": 1741.0
+   },
+   "Temperature": {
+    "rho1_median": 0.948,
+    "n_eff": 44.7
+   },
+   "Humidity": {
+    "rho1_median": 0.967,
+    "n_eff": 19.7
+   }
+  }
+ },
+ "kruskal_humidity_H": 7479.6,
+ "gas_reproduction": {
+  "all8": {
+   "random_split_acc": 0.9991,
+   "random_split_bacc": 0.9991,
+   "temporal_block_acc": 1.0,
+   "temporal_block_bacc": 1.0,
+   "segment_block_bacc_mean": 0.9427,
+   "segment_block_bacc_min": 0.8126,
+   "segment_block_bacc_max": 0.9996
+  },
+  "gas_only": {
+   "random_split_acc": 0.9927,
+   "random_split_bacc": 0.9931,
+   "temporal_block_acc": 0.9923,
+   "temporal_block_bacc": 0.9928,
+   "segment_block_bacc_mean": 0.9124,
+   "segment_block_bacc_min": 0.7936,
+   "segment_block_bacc_max": 0.9949
+  },
+  "env_only": {
+   "random_split_acc": 0.9968,
+   "random_split_bacc": 0.9965,
+   "temporal_block_acc": 0.9039,
+   "temporal_block_bacc": 0.9071,
+   "segment_block_bacc_mean": 0.8605,
+   "segment_block_bacc_min": 0.6785,
+   "segment_block_bacc_max": 1.0
+  }
+ },
+ "saved_gas_scaler": {
+  "n_samples_seen": 6618,
+  "features": [
+   "MQ2",
+   "MQ3",
+   "MQ135",
+   "Temperature",
+   "Humidity",
+   "Gas_Sum",
+   "MQ3_Ratio",
+   "Temp_Hum_Index"
+  ],
+  "mean": {
+   "MQ2": 98.717,
+   "MQ3": 1245.81,
+   "MQ135": 61.236,
+   "Temperature": 28.706,
+   "Humidity": 73.981,
+   "Gas_Sum": 1405.763,
+   "MQ3_Ratio": 0.88,
+   "Temp_Hum_Index": 2121.68
+  }
+ },
+ "saved_gas_rf_importances": {
+  "MQ2": 0.075,
+  "MQ3": 0.142,
+  "MQ135": 0.256,
+  "Temperature": 0.031,
+  "Humidity": 0.18,
+  "Gas_Sum": 0.175,
+  "MQ3_Ratio": 0.03,
+  "Temp_Hum_Index": 0.111
+ },
+ "train_serve_skew": {
+  "training_formula": {
+   "MQ3_Ratio_mean": 0.892,
+   "Temp_Hum_Index_mean": 2126.3,
+   "z_MQ3_Ratio_median": 0.2,
+   "z_Temp_Hum_Index_median": 0.2,
+   "pred_class_counts_fresh": [
+    3036,
+    1,
+    0
+   ],
+   "deployed_health_mean_fresh": 0.1,
+   "corrected_health_mean_fresh": 99.9,
+   "pred_class_counts_medium": [
+    1,
+    3143,
+    0
+   ],
+   "deployed_health_mean_medium": 49.9,
+   "corrected_health_mean_medium": 50.1,
+   "pred_class_counts_spoilt": [
+    0,
+    0,
+    2638
+   ],
+   "deployed_health_mean_spoilt": 100.0,
+   "corrected_health_mean_spoilt": 0.0
+  },
+  "deployed_formula": {
+   "MQ3_Ratio_mean": 12.423,
+   "Temp_Hum_Index_mean": 21.26,
+   "z_MQ3_Ratio_median": 197.4,
+   "z_Temp_Hum_Index_median": -24.7,
+   "pred_class_counts_fresh": [
+    3032,
+    5,
+    0
+   ],
+   "deployed_health_mean_fresh": 15.8,
+   "corrected_health_mean_fresh": 84.2,
+   "pred_class_counts_medium": [
+    2,
+    3142,
+    0
+   ],
+   "deployed_health_mean_medium": 47.7,
+   "corrected_health_mean_medium": 52.3,
+   "pred_class_counts_spoilt": [
+    0,
+    22,
+    2616
+   ],
+   "deployed_health_mean_spoilt": 78.0,
+   "corrected_health_mean_spoilt": 22.0
+  }
+ },
+ "pred_alignment": {
+  "TH_multiset_equal_to_gas_runs": true,
+  "row_match_frac_time_sorted": 0.9986,
+  "rows_unmatched": 12
+ },
+ "pred_dataset": {
+  "rows": 8819,
+  "labelled_rows": 876,
+  "labelled_frac": 0.0993,
+  "label_by_class": {
+   "fresh": {
+    "count": 308.0,
+    "mean": 10.87,
+    "std": 0.47,
+    "min": 9.9,
+    "25%": 10.5,
+    "50%": 10.9,
+    "75%": 11.3,
+    "max": 11.9
+   },
+   "medium": {
+    "count": 309.0,
+    "mean": 5.4,
+    "std": 0.66,
+    "min": 4.1,
+    "25%": 4.9,
+    "50%": 5.4,
+    "75%": 5.9,
+    "max": 7.3
+   },
+   "spoilt": {
+    "count": 259.0,
+    "mean": 0.0,
+    "std": 0.0,
+    "min": 0.0,
+    "25%": 0.0,
+    "50%": 0.0,
+    "75%": 0.0,
+    "max": 0.0
+   }
+  },
+  "teacher_label_by_class": {
+   "fresh": {
+    "count": 3037.0,
+    "mean": 10.89,
+    "std": 0.45,
+    "min": 9.25,
+    "25%": 10.54,
+    "50%": 10.88,
+    "75%": 11.23,
+    "max": 11.9
+   },
+   "medium": {
+    "count": 3144.0,
+    "mean": 5.37,
+    "std": 0.62,
+    "min": 4.1,
+    "25%": 4.92,
+    "50%": 5.36,
+    "75%": 5.87,
+    "max": 7.62
+   },
+   "spoilt": {
+    "count": 2638.0,
+    "mean": 0.0,
+    "std": 0.0,
+    "min": 0.0,
+    "25%": 0.0,
+    "50%": 0.0,
+    "75%": 0.0,
+    "max": 0.0
+   }
+  },
+  "unique_vision_values": 7765,
+  "unique_area_values": 8608,
+  "unique_gas_quality_values": 60,
+  "vision_by_class": {
+   "fresh": {
+    "mean": 88.0,
+    "std": 7.0,
+    "min": 75.0,
+    "max": 100.0
+   },
+   "medium": {
+    "mean": 59.4,
+    "std": 10.5,
+    "min": 40.0,
+    "max": 74.9
+   },
+   "spoilt": {
+    "mean": 24.9,
+    "std": 9.5,
+    "min": 0.0,
+    "max": 39.9
+   }
+  },
+  "gas_quality_by_class": {
+   "fresh": {
+    "mean": 99.9,
+    "min": 63.0,
+    "max": 100.0
+   },
+   "medium": {
+    "mean": 50.1,
+    "min": 47.5,
+    "max": 80.0
+   },
+   "spoilt": {
+    "mean": 0.0,
+    "min": 0.0,
+    "max": 16.0
+   }
+  },
+  "teacher_file_is_row_permutation": true,
+  "vision_log_status_bounds": {
+   "LOW": {
+    "min": 40.1,
+    "max": 74.8,
+    "count": 570
+   },
+   "PASS": {
+    "min": 75.0,
+    "max": 84.3,
+    "count": 23
+   },
+   "REJECT": {
+    "min": 6.3,
+    "max": 40.0,
+    "count": 654
+   }
+  },
+  "area_perfect_square_frac": {
+   "vision_log": 0.8565,
+   "prediction_table": 0.0122
+  },
+  "area_median": {
+   "vision_log": 21316.0,
+   "prediction_table": 315815.0
+  },
+  "table_area_values_found_in_log": 0.0002,
+  "phase_vs_class": {
+   "fresh": {
+    "0": 103,
+    "1": 0,
+    "2": 4,
+    "3": 2930
+   },
+   "medium": {
+    "0": 2471,
+    "1": 1,
+    "2": 671,
+    "3": 1
+   },
+   "spoilt": {
+    "0": 0,
+    "1": 2635,
+    "2": 3,
+    "3": 0
+   }
+  }
+ },
+ "saved_master_rf": {
+  "type": "RandomForestRegressor",
+  "n_estimators": 200,
+  "max_depth": 15,
+  "importances": {
+   "Vision_Quality": 0.121,
+   "Area": 0.0,
+   "Gas_Quality": 0.691,
+   "Humidity": 0.187,
+   "Temperature": 0.001,
+   "Spoilage_Phase": 0.0
+  }
+ },
+ "vision": {
+  "n_values_giving_58.33pct_upto150": [
+   12,
+   24,
+   36,
+   48,
+   60,
+   72,
+   84,
+   96,
+   108,
+   120,
+   132,
+   144
+  ],
+  "wilson_56_of_96": [
+   0.4834,
+   0.6769
+  ],
+  "wilson_63_of_108": [
+   0.4891,
+   0.6719
+  ],
+  "wilson_91pct_of_791": [
+   0.8883,
+   0.9282
+  ]
+ },
+ "vision_log": {
+  "rows": 1247,
+  "sessions": 10,
+  "status_counts": {
+   "REJECT": 654,
+   "LOW": 570,
+   "PASS": 23
+  }
+ }
+}

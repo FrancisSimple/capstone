@@ -1,0 +1,14 @@
+=== real/: {'fresh': 25, 'rotten': 11}
+keras_h5 notebook (RGB, [-1,1])             acc 34/36 = 0.9444  fresh-recall 1.00 rotten-recall 0.82  AUC 0.949
+keras_h5 run_scanner.py (BGR, [-1,1])       acc 15/36 = 0.4167  fresh-recall 0.20 rotten-recall 0.91  AUC 0.836
+keras_h5 shared/inference.py (BGR, [0,1])   acc 16/36 = 0.4444  fresh-recall 0.24 rotten-recall 0.91  AUC 0.891
+tflite   notebook (RGB, [-1,1])             acc 31/36 = 0.8611  fresh-recall 0.88 rotten-recall 0.82  AUC 0.935
+tflite   run_scanner.py (BGR, [-1,1])       acc 15/36 = 0.4167  fresh-recall 0.20 rotten-recall 0.91  AUC 0.862
+tflite   shared/inference.py (BGR, [0,1])   acc 14/36 = 0.3889  fresh-recall 0.12 rotten-recall 1.00  AUC 0.909
+File-name score ranges: {'fresh_range': [0.09, 0.41], 'rotten_range': [0.25, 0.87], 'auc_as_rot_score': 0.9563636363636364}
+Spearman(file-name score, model P(rot)): {'keras_h5 | notebook (RGB, [-1,1])': 0.978, 'keras_h5 | run_scanner.py (BGR, [-1,1])': 0.696, 'keras_h5 | shared/inference.py (BGR, [0,1])': 0.723, 'tflite | notebook (RGB, [-1,1])': 0.975, 'tflite | run_scanner.py (BGR, [-1,1])': 0.771, 'tflite | shared/inference.py (BGR, [0,1])': 0.759}
+Correct of 36 by threshold (keras, notebook prep): {0.05: 11, 0.1: 11, 0.15: 14, 0.2: 21, 0.25: 24, 0.3: 27, 0.35: 31, 0.4: 32, 0.45: 34, 0.5: 34, 0.55: 34, 0.6: 34, 0.65: 33, 0.7: 33, 0.75: 33, 0.8: 32, 0.85: 30, 0.9: 25, 0.95: 25}
+=== Kaggle test oranges: {'fresh': 388, 'rotten': 403}
+keras_h5 notebook (RGB, [-1,1])             acc 510/791 = 0.6448  tn/fp/fn/tp [167, 221, 60, 343]  AUC 0.760
+keras_h5 run_scanner.py (BGR, [-1,1])       acc 490/791 = 0.6195  tn/fp/fn/tp [121, 267, 34, 369]  AUC 0.705
+keras_h5 shared/inference.py (BGR, [0,1])   acc 442/791 = 0.5588  tn/fp/fn/tp [44, 344, 5, 398]  AUC 0.694

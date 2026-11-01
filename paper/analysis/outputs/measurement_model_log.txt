@@ -1,0 +1,35 @@
+=== 1. Observation faults
+fresh {'readings': 3037, 'recorded_hours': 4.1478, 'duplicate_timestamps': 119, 'missed_samples': 76, 'missed_rate': 0.0244, 'restarts': 10, 'restarts_per_hour': np.float64(2.4109), 'MQ2_isolated_zero_per_1000': 20.7442, 'MQ2_zero_share': 0.0227, 'MQ3_isolated_zero_per_1000': 0.3293, 'MQ3_zero_share': 0.0003, 'MQ135_isolated_zero_per_1000': 58.6105, 'MQ135_zero_share': 0.621}
+medium {'readings': 3144, 'recorded_hours': 4.3072, 'duplicate_timestamps': 87, 'missed_samples': 56, 'missed_rate': 0.0175, 'restarts': 11, 'restarts_per_hour': np.float64(2.5539), 'MQ2_isolated_zero_per_1000': 4.1349, 'MQ2_zero_share': 0.0041, 'MQ3_isolated_zero_per_1000': 0.3181, 'MQ3_zero_share': 0.0003, 'MQ135_isolated_zero_per_1000': 6.0433, 'MQ135_zero_share': 0.006}
+spoilt {'readings': 2638, 'recorded_hours': 3.6678, 'duplicate_timestamps': 4, 'missed_samples': 7, 'missed_rate': 0.0026, 'restarts': 2, 'restarts_per_hour': np.float64(0.5453), 'MQ2_isolated_zero_per_1000': 1.8954, 'MQ2_zero_share': 0.0019, 'MQ3_isolated_zero_per_1000': 0.0, 'MQ3_zero_share': 0.0, 'MQ135_isolated_zero_per_1000': 11.7513, 'MQ135_zero_share': 0.0118}
+=== 2. Residual noise (5-s reading minus 5-min rolling median)
+fresh  MQ2         n  2897  sd   12.98  robust sd   7.41  kurt   71.7  t df   2.77  dAIC(N-t)      1824  ac1  0.02
+fresh  MQ3         n  2968  sd   21.16  robust sd  13.34  kurt   57.6  t df   2.77  dAIC(N-t)      1797  ac1  0.27
+fresh  MQ135       n   765  sd   18.27  robust sd   6.67  kurt  112.9  t df   2.20  dAIC(N-t)      1110  ac1 -0.01
+fresh  Temperature n  2969  sd    0.03  robust sd   0.00  kurt    5.2  t df   1.99  dAIC(N-t)    159001  ac1  0.32
+fresh  Humidity    n  2969  sd    0.17  robust sd   0.00  kurt  100.1  t df   0.15  dAIC(N-t)     94611  ac1  0.77
+medium MQ2         n  3052  sd   16.71  robust sd  11.86  kurt   21.4  t df   3.09  dAIC(N-t)      1209  ac1  0.19
+medium MQ3         n  3064  sd   72.20  robust sd  35.58  kurt   25.3  t df   1.86  dAIC(N-t)      1511  ac1  0.61
+medium MQ135       n  3046  sd   16.38  robust sd  10.38  kurt   19.7  t df   2.94  dAIC(N-t)      1150  ac1  0.34
+medium Temperature n  3065  sd    0.03  robust sd   0.00  kurt    6.3  t df   2.12  dAIC(N-t)    167142  ac1  0.28
+medium Humidity    n  3065  sd    0.08  robust sd   0.00  kurt    0.3  t df  18.29  dAIC(N-t)        10  ac1  0.40
+spoilt MQ2         n  2632  sd   16.29  robust sd  13.34  kurt   12.6  t df   4.96  dAIC(N-t)       411  ac1  0.21
+spoilt MQ3         n  2638  sd   33.94  robust sd  25.20  kurt   20.3  t df   3.54  dAIC(N-t)       775  ac1  0.47
+spoilt MQ135       n  2605  sd   17.78  robust sd  10.38  kurt  499.9  t df   3.26  dAIC(N-t)      2135  ac1  0.09
+spoilt Temperature n  2638  sd    0.04  robust sd   0.00  kurt    3.0  t df   1.99  dAIC(N-t)    113863  ac1  0.26
+spoilt Humidity    n  2638  sd    0.12  robust sd   0.15  kurt    2.0  t df   5.01  dAIC(N-t)       171  ac1  0.57
+log robust SD = a + gamma log level over 10-min windows: gamma = 0.34 (SE 0.02), r = 0.76, 191 windows
+=== 3. Within-segment trend after the warm-up exclusion (MQ3, segments with >= 30 min settled)
+  fresh  seg  9  0.8 h settled  level 353  trend +29 counts/h (+8.4%/h)
+  medium seg  9  1.4 h settled  level 1581  trend -24 counts/h (-1.5%/h)
+  spoilt seg  2  2.0 h settled  level 2402  trend -35 counts/h (-1.5%/h)
+=== 4. Climate-input error expressed as decay-rate error
+  Q10 1.5  era5 : uncorrected rate x0.86 (shelf life x1.17); after bias correction 95% rate range x0.86-x1.16
+  Q10 1.5  power: uncorrected rate x0.95 (shelf life x1.06); after bias correction 95% rate range x0.83-x1.20
+  Q10 2.0  era5 : uncorrected rate x0.77 (shelf life x1.30); after bias correction 95% rate range x0.78-x1.29
+  Q10 2.0  power: uncorrected rate x0.91 (shelf life x1.10); after bias correction 95% rate range x0.73-x1.37
+  Q10 3.0  era5 : uncorrected rate x0.66 (shelf life x1.51); after bias correction 95% rate range x0.67-x1.49
+  Q10 3.0  power: uncorrected rate x0.86 (shelf life x1.16); after bias correction 95% rate range x0.61-x1.65
+  linear calibration (era5): T_in = 22.9 + 0.23 T_ext, resid SD 0.50 C -> 95% rate range at Q10 = 3: x0.90-x1.11
+  linear calibration (power): T_in = 23.6 + 0.19 T_ext, resid SD 0.54 C -> 95% rate range at Q10 = 3: x0.89-x1.12
+  logged T 26.8-29.9 C -> rate relative to 25 C (Q10 = 2): x1.13-x1.40

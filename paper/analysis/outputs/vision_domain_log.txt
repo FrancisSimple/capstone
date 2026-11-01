@@ -1,0 +1,12 @@
+=== 1. Precision / recall / F1 (rotten = positive)
+  reported field test (96 images; recipe 1 before update)        acc 0.583  prec 0.36  rec 0.54  F1 0.43  spec 0.60  bal 0.57  cm [41, 27, 13, 15]
+  committed (updated) model, public test, notebook prep          acc 0.645  prec 0.61  rec 0.85  F1 0.71  spec 0.43  bal 0.64  cm [167, 221, 60, 343]
+  committed (updated) model, 36 field crops, Keras               acc 0.944  prec 1.00  rec 0.82  F1 0.90  spec 1.00  bal 0.91  cm [25, 0, 2, 9]
+  committed model, 36 field crops, TFLite, deployed BGR          acc 0.417  prec 0.33  rec 0.91  F1 0.49  spec 0.20  bal 0.55  cm [5, 20, 1, 10]
+  re-created recipe 2, public test                               acc 0.910  prec 1.00  rec 0.82  F1 0.90  spec 1.00  bal 0.91  cm [388, 0, 71, 332]
+  re-created recipe 2, 36 field crops (unseen)                   acc 0.694  prec 0.50  rec 0.91  F1 0.65  spec 0.60  bal 0.75  cm [15, 10, 1, 10]
+=== 2. Public training images: 3061
+Field crops by capture day: {0: {'n': 15, 'rotten': 1}, 1: {'n': 2, 'rotten': 0}, 2: {'n': 19, 'rotten': 10}}
+  public only                    acc 0.444 [0.3 0.6]  bal 0.57  F1 0.50  AUC 0.89  cm [6, 19, 1, 10]
+  public only + grey-world       acc 0.472 [0.32 0.63]  bal 0.59  F1 0.51  AUC 0.91  cm [7, 18, 1, 10]
+  public + field (other days)    acc 0.944 [0.82 0.98]  bal 0.93  F1 0.91  AUC 0.92  cm [24, 1, 1, 10]

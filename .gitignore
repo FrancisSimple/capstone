@@ -214,3 +214,34 @@ pc/*
 pc/
 pc
 teach.py
+
+# ---------------------------------------------------------------------------
+# PRIVATE RESEARCH MATERIAL - never published with this repository
+# ---------------------------------------------------------------------------
+# Follow-on research paper. PUBLIC: the analysis scripts and their outputs,
+# figures, the research environment and the experimental protocol.
+# PRIVATE: the manuscript, its PDF builds, earlier versions, the revision
+# plan, the reference list and the PDF builder, plus the Python environment.
+paper/*
+!paper/analysis/
+!paper/figures/
+!paper/requirements-research.txt
+!paper/EXPERIMENTAL_PROTOCOL.md
+paper/.venv/
+# pilot runs and the large prediction archive (rebuilt by 11_evaluation_revised.py)
+paper/analysis/outputs/*_pilot*
+paper/analysis/outputs/revA_predictions.npz
+# Research notes and the plain-language companion to the paper
+curiousity.txt
+researchstory.txt
+# Research planning documents, paper template and the capstone report
+Research Protocol.pdf
+uncertainty_aware_orange_spoilage_manuscript.pdf
+Francis_Sewor_Caleb_Yeboah_NathanAmanquah.pdf
+orange_spoilage_manuscript_improvement_recommendations.pdf
+# Models re-created during the research (rebuilt by paper/analysis/05_*)
+models/keras/orange_quality_model_production.keras
+models/tflite/orange_quality_model_production.tflite
+# Downloaded datasets and local scratch work
+kagglehub/
+scratch/

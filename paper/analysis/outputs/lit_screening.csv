@@ -1,0 +1,49 @@
+key,source,query,decision,theme,reason
+defraeye2024,search,Q6,include,citrus digital twin,validated virtual refrigerated container for citrus; quality variability
+zhang2026,search,Q1r,include,dynamic shelf life,box-level DT shelf life incl. oranges; temperature reconstruction
+onwude2024,search,Q6r,include,citrus digital twin,weather-driven digital replica of Valencia value chain
+onwude2022,search,Q6r,include,citrus digital twin,MCMC virtual population of 1000 oranges; pre/postharvest variability
+zou2025,search,Q6r,include,dynamic shelf life,DT + LSTM in-box temperature (+-0.3 C) driving kinetic shelf life
+ngwenya2026,search,Q6r,include,citrus temperature data,systematic review: lack of longitudinal temperature-quality correlations
+gwanpua2013,search,Q1r,include,biological variation,postharvest firmness variation modelling
+chen2023,search,Q5r,include,uncertainty shelf life,dynamic shelf-life prediction considering uncertainty (abstract not retrieved; cited at title level)
+giannakourou2025,search,Q7,include,uncertainty kinetics,uncertainty and variability in kinetic quality-loss calculations
+marquenie2002,search,Q2r,include,survival analysis,survival analysis of storage rot in fruit
+gimenez2017,search,Q2r,include,survival analysis,failure criteria in shelf-life testing via survival analysis
+kaya2020,search,Q3r,include,sensor failure,failure-tolerant e-nose food quality prediction
+venus2013,search,Q4r,include,climate inputs,satellite weather -> postharvest loss model; Burkina Faso-Ghana; error quantified
+stathers2025,search,Q11,include,PHL SSA,systematic scoping review of PHL interventions in SSA/South Asia
+twumdei2026,search,Q11,include,PHL Ghana,cross-sector PHL of fruits and vegetables in Ghana incl. citrus
+ambuko2025,search,Q11,include,PHL data gaps,FLW data gaps in fruit and vegetable chains
+dinatale2001,search,Q8,include,e-nose citrus,e-nose quality of postharvest oranges
+pallottino2012,search,Q8,include,e-nose citrus,e-nose detection of P. digitatum in 300 Valencia oranges
+imran2026,search,Q9,include,label scarcity MOS,pseudo-supervised spoilage detection with MOS sensors
+sabu2026,search,Q9,include,gas sensing review,review of gas sensing for food spoilage
+hong2015,search,Q14,include,label scarcity e-nose,semi-supervised vs supervised e-nose classification
+owoyemi2022,search,Q12,include,citrus storage ML,10800 Valencia oranges; shelf-life prediction models
+owoyemi2023,search,Q12,include,citrus storage ML,temperature interruptions; dynamic shelf-life models
+gruber2013,search,Q8,exclude,e-nose citrus,material-science focus; covered by pallottino2012
+sun2026,search,Q8,exclude,e-nose citrus,no abstract available; chamber design
+wang2014,search,Q8,exclude,e-nose citrus,non-English journal; full text not accessible
+singh2022,search,Q4r,exclude,ML review,generic review without postharvest-loss modelling content
+raut2018,search,Q4r,exclude,PHL drivers,MCDM of loss drivers; not sensor/prediction
+sibanda2020,search,Q11,exclude,cooling SSA,cooling technology review; outside scope of prediction
+spurgeon2019,search,Q10,exclude,pseudoreplication,covered by hurlbert1984
+jelali2026,search,Q10,exclude,leakage,preprint without abstract
+castrotapia2026,search,Q10,exclude,leakage,image ripeness; covered by kapoor2023
+suhandy2018,search,Q5r,exclude,orange shelf life,no venue/DOI; not verifiable
+kanade2021,search,Q9,exclude,MOS e-nose,repository deposit; guava; not peer-reviewed venue
+yadav2026,search,Q4r,exclude,sensors PHL,nutri-cereals; outside fruit scope
+fao2019,targeted,-,include,background,global food loss estimate
+unep2024,targeted,-,include,background,global food waste estimate
+obayelu2022,targeted,-,include,PHL orange,orange losses along Nigerian chain
+hertog2004,citation,-,include,biological variation,classic on biological variation
+rubin1976,citation,-,include,missing data,missing-data mechanisms
+vergara2012,citation,-,include,sensor drift,MOS drift
+brier1950,citation,-,include,calibration,Brier score
+gneiting2007,citation,-,include,calibration,proper scoring rules
+guo2017,citation,-,include,calibration,miscalibration of neural networks
+palou2014,citation,-,include,citrus decay,green/blue mould of citrus
+priem2022,citation,-,include,method,OpenAlex index
+perezmarin2019,template,-,include,citrus NIR,template seed reference
+vicent2021,search,Q1r,exclude,firmness variability,no abstract; apple firmness covered by gwanpua2013

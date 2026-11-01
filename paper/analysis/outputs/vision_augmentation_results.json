@@ -1,0 +1,164 @@
+{
+  "results": {
+    "public only | none": {
+      "correct": 16,
+      "n": 36,
+      "accuracy": 0.4444444444444444,
+      "wilson95": [
+        0.2954102987654314,
+        0.6041921268399659
+      ],
+      "tn_fp_fn_tp": [
+        6,
+        19,
+        1,
+        10
+      ],
+      "precision_rotten": 0.3448275862068966,
+      "recall_rotten": 0.9090909090909091,
+      "f1_rotten": 0.5000000000000001,
+      "specificity": 0.24,
+      "auc": 0.8909090909090909
+    },
+    "public + field (other days) | none": {
+      "correct": 34,
+      "n": 36,
+      "accuracy": 0.9444444444444444,
+      "wilson95": [
+        0.8185502589238878,
+        0.9846303362329332
+      ],
+      "tn_fp_fn_tp": [
+        24,
+        1,
+        1,
+        10
+      ],
+      "precision_rotten": 0.9090909090909091,
+      "recall_rotten": 0.9090909090909091,
+      "f1_rotten": 0.9090909090909091,
+      "specificity": 0.96,
+      "auc": 0.9199999999999999
+    },
+    "public only | geometric": {
+      "correct": 16,
+      "n": 36,
+      "accuracy": 0.4444444444444444,
+      "wilson95": [
+        0.2954102987654314,
+        0.6041921268399659
+      ],
+      "tn_fp_fn_tp": [
+        6,
+        19,
+        1,
+        10
+      ],
+      "precision_rotten": 0.3448275862068966,
+      "recall_rotten": 0.9090909090909091,
+      "f1_rotten": 0.5000000000000001,
+      "specificity": 0.24,
+      "auc": 0.8963636363636364
+    },
+    "public + field (other days) | geometric": {
+      "correct": 34,
+      "n": 36,
+      "accuracy": 0.9444444444444444,
+      "wilson95": [
+        0.8185502589238878,
+        0.9846303362329332
+      ],
+      "tn_fp_fn_tp": [
+        24,
+        1,
+        1,
+        10
+      ],
+      "precision_rotten": 0.9090909090909091,
+      "recall_rotten": 0.9090909090909091,
+      "f1_rotten": 0.9090909090909091,
+      "specificity": 0.96,
+      "auc": 0.9236363636363636
+    },
+    "public only | photometric": {
+      "correct": 16,
+      "n": 36,
+      "accuracy": 0.4444444444444444,
+      "wilson95": [
+        0.2954102987654314,
+        0.6041921268399659
+      ],
+      "tn_fp_fn_tp": [
+        6,
+        19,
+        1,
+        10
+      ],
+      "precision_rotten": 0.3448275862068966,
+      "recall_rotten": 0.9090909090909091,
+      "f1_rotten": 0.5000000000000001,
+      "specificity": 0.24,
+      "auc": 0.8836363636363637
+    },
+    "public + field (other days) | photometric": {
+      "correct": 34,
+      "n": 36,
+      "accuracy": 0.9444444444444444,
+      "wilson95": [
+        0.8185502589238878,
+        0.9846303362329332
+      ],
+      "tn_fp_fn_tp": [
+        24,
+        1,
+        1,
+        10
+      ],
+      "precision_rotten": 0.9090909090909091,
+      "recall_rotten": 0.9090909090909091,
+      "f1_rotten": 0.9090909090909091,
+      "specificity": 0.96,
+      "auc": 0.9054545454545454
+    },
+    "public only | both": {
+      "correct": 14,
+      "n": 36,
+      "accuracy": 0.3888888888888889,
+      "wilson95": [
+        0.24784655417822943,
+        0.5513582970325652
+      ],
+      "tn_fp_fn_tp": [
+        4,
+        21,
+        1,
+        10
+      ],
+      "precision_rotten": 0.3225806451612903,
+      "recall_rotten": 0.9090909090909091,
+      "f1_rotten": 0.4761904761904761,
+      "specificity": 0.16,
+      "auc": 0.8763636363636363
+    },
+    "public + field (other days) | both": {
+      "correct": 34,
+      "n": 36,
+      "accuracy": 0.9444444444444444,
+      "wilson95": [
+        0.8185502589238878,
+        0.9846303362329332
+      ],
+      "tn_fp_fn_tp": [
+        24,
+        1,
+        1,
+        10
+      ],
+      "precision_rotten": 0.9090909090909091,
+      "recall_rotten": 0.9090909090909091,
+      "f1_rotten": 0.9090909090909091,
+      "specificity": 0.96,
+      "auc": 0.9163636363636364
+    }
+  }
+}

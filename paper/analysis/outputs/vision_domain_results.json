@@ -1,0 +1,185 @@
+{
+  "metrics": {
+    "reported field test (96 images; recipe 1 before update)": {
+      "tn_fp_fn_tp": [
+        41,
+        27,
+        13,
+        15
+      ],
+      "accuracy": 0.5833333333333334,
+      "accuracy_wilson95": [
+        0.48336785466267024,
+        0.6768859874231938
+      ],
+      "precision_rotten": 0.35714285714285715,
+      "recall_rotten": 0.5357142857142857,
+      "f1_rotten": 0.4285714285714286,
+      "specificity": 0.6029411764705882,
+      "balanced_accuracy": 0.569327731092437
+    },
+    "committed (updated) model, public test, notebook prep": {
+      "tn_fp_fn_tp": [
+        167,
+        221,
+        60,
+        343
+      ],
+      "accuracy": 0.6447534766118836,
+      "accuracy_wilson95": [
+        0.6107746092217249,
+        0.6773331093476102
+      ],
+      "precision_rotten": 0.6081560283687943,
+      "recall_rotten": 0.8511166253101737,
+      "f1_rotten": 0.7094105480868665,
+      "specificity": 0.43041237113402064,
+      "balanced_accuracy": 0.6407644982220972
+    },
+    "committed (updated) model, 36 field crops, Keras": {
+      "tn_fp_fn_tp": [
+        25,
+        0,
+        2,
+        9
+      ],
+      "accuracy": 0.9444444444444444,
+      "accuracy_wilson95": [
+        0.8185502589238878,
+        0.9846303362329332
+      ],
+      "precision_rotten": 1.0,
+      "recall_rotten": 0.8181818181818182,
+      "f1_rotten": 0.9,
+      "specificity": 1.0,
+      "balanced_accuracy": 0.9090909090909092
+    },
+    "committed model, 36 field crops, TFLite, deployed BGR": {
+      "tn_fp_fn_tp": [
+        5,
+        20,
+        1,
+        10
+      ],
+      "accuracy": 0.4166666666666667,
+      "accuracy_wilson95": [
+        0.2714033350508729,
+        0.5780003033572231
+      ],
+      "precision_rotten": 0.3333333333333333,
+      "recall_rotten": 0.9090909090909091,
+      "f1_rotten": 0.4878048780487804,
+      "specificity": 0.2,
+      "balanced_accuracy": 0.5545454545454546
+    },
+    "re-created recipe 2, public test": {
+      "tn_fp_fn_tp": [
+        388,
+        0,
+        71,
+        332
+      ],
+      "accuracy": 0.9102402022756005,
+      "accuracy_wilson95": [
+        0.8882870850975638,
+        0.9282278029002461
+      ],
+      "precision_rotten": 1.0,
+      "recall_rotten": 0.8238213399503722,
+      "f1_rotten": 0.9034013605442177,
+      "specificity": 1.0,
+      "balanced_accuracy": 0.9119106699751861
+    },
+    "re-created recipe 2, 36 field crops (unseen)": {
+      "tn_fp_fn_tp": [
+        15,
+        10,
+        1,
+        10
+      ],
+      "accuracy": 0.6944444444444444,
+      "accuracy_wilson95": [
+        0.5314342132091627,
+        0.8199572971719464
+      ],
+      "precision_rotten": 0.5,
+      "recall_rotten": 0.9090909090909091,
+      "f1_rotten": 0.6451612903225806,
+      "specificity": 0.6,
+      "balanced_accuracy": 0.7545454545454545
+    }
+  },
+  "field_groups": {
+    "0": {
+      "n": 15,
+      "rotten": 1
+    },
+    "1": {
+      "n": 2,
+      "rotten": 0
+    },
+    "2": {
+      "n": 19,
+      "rotten": 10
+    }
+  },
+  "leave_one_day_out": {
+    "public only": {
+      "tn_fp_fn_tp": [
+        6,
+        19,
+        1,
+        10
+      ],
+      "accuracy": 0.4444444444444444,
+      "accuracy_wilson95": [
+        0.2954102987654314,
+        0.6041921268399659
+      ],
+      "precision_rotten": 0.3448275862068966,
+      "recall_rotten": 0.9090909090909091,
+      "f1_rotten": 0.5000000000000001,
+      "specificity": 0.24,
+      "balanced_accuracy": 0.5745454545454545,
+      "auc": 0.8909090909090909
+    },
+    "public only + grey-world": {
+      "tn_fp_fn_tp": [
+        7,
+        18,
+        1,
+        10
+      ],
+      "accuracy": 0.4722222222222222,
+      "accuracy_wilson95": [
+        0.31985792907209337,
+        0.6299432837306054
+      ],
+      "precision_rotten": 0.35714285714285715,
+      "recall_rotten": 0.9090909090909091,
+      "f1_rotten": 0.5128205128205129,
+      "specificity": 0.28,
+      "balanced_accuracy": 0.5945454545454545,
+      "auc": 0.9127272727272727
+    },
+    "public + field (other days)": {
+      "tn_fp_fn_tp": [
+        24,
+        1,
+        1,
+        10
+      ],
+      "accuracy": 0.9444444444444444,
+      "accuracy_wilson95": [
+        0.8185502589238878,
+        0.9846303362329332
+      ],
+      "precision_rotten": 0.9090909090909091,
+      "recall_rotten": 0.9090909090909091,
+      "f1_rotten": 0.9090909090909091,
+      "specificity": 0.96,
+      "balanced_accuracy": 0.9345454545454546,
+      "auc": 0.9199999999999999
+    }
+  }
+}

@@ -76,8 +76,9 @@ def on_message(client, userdata, msg):
         
         # Calculate the "Stuff" (Derived Features)
         gas_sum   = mq2_raw + mq3_raw + mq135_raw
-        mq3_ratio = mq3_raw / (mq2_raw + 0.001)
-        th_index  = (temp * hum) / 100.0
+        # Same formulas as the training notebook (gasmodel.py, Cell 3)
+        mq3_ratio = mq3_raw / (gas_sum + 1e-6)
+        th_index  = temp * hum
         
         # Build vector in the exact order the scaler was trained on
         feature_values = [mq2_raw, mq3_raw, mq135_raw, temp, hum, gas_sum, mq3_ratio, th_index]
@@ -107,9 +108,9 @@ def on_message(client, userdata, msg):
             print(f"Class {i}: {p*100:5.1f}%")
             
         # Calculate Weighted Health Percentage
-        # Using [0=Bad, 1=Medium, 2=Fresh] mapping
-        # Health = (Prob[1]*50 + Prob[2]*100)
-        health_percentage = (probs[1] * 50.0) + (probs[2] * 100.0)
+        # The trained model's classes are [0=Fresh, 1=Medium, 2=Spoilt]
+        # Health = (Prob[0]*100 + Prob[1]*50)
+        health_percentage = (probs[0] * 100.0) + (probs[1] * 50.0)
         
         print(f"--- [FINAL RESULT] ---")
         print(f"OVERALL FRUIT HEALTH: {health_percentage:.1f}%")
