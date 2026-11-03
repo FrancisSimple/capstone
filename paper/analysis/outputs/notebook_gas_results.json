@@ -1,0 +1,158 @@
+{
+  "sklearn_version": "1.9.1",
+  "scaler_matches_saved": false,
+  "cell4_random_split_accuracy": {
+    "Random Forest": 0.9988662131519275,
+    "Support Vector Machine": 0.9977324263038548,
+    "K-Nearest Neighbors": 0.9965986394557823,
+    "XGBoost": 0.9982993197278912
+  },
+  "saved_rf_test_accuracy": 0.9988662131519275,
+  "cell4_temporal_block_accuracy": {
+    "Random Forest": 1.0,
+    "Support Vector Machine": 1.0,
+    "K-Nearest Neighbors": 1.0,
+    "XGBoost": 0.9960272417707151
+  },
+  "cell4_temporal_block_env_only": {
+    "Random Forest": 0.9188422247446084,
+    "Support Vector Machine": 0.8206583427922814,
+    "K-Nearest Neighbors": 0.8433598183881952,
+    "XGBoost": 0.8626560726447219
+  },
+  "saved_rf_importance": {
+    "MQ135": 0.25620699166114363,
+    "Humidity": 0.1796789599942224,
+    "Gas_Sum": 0.1754739247433981,
+    "MQ3": 0.14194737051381479,
+    "Temp_Hum_Index": 0.11091009001718773,
+    "MQ2": 0.07469021118218633,
+    "Temperature": 0.030730683692618478,
+    "MQ3_Ratio": 0.030361768195428566
+  },
+  "cell6_regenerated_equals_committed": {
+    "Vision_Quality": 1.0,
+    "Area": 1.0,
+    "Gas_Quality": 1.0,
+    "Humidity": 1.0,
+    "Temperature": 1.0,
+    "label_mask": 1.0,
+    "labels_equal_formula": 1.0
+  },
+  "labelled_rows": 876,
+  "gas_quality_by_class": {
+    "Good": {
+      "mean": 99.87,
+      "min": 63.0,
+      "max": 100.0
+    },
+    "Medium": {
+      "mean": 50.06,
+      "min": 47.5,
+      "max": 80.0
+    },
+    "Spoilt": {
+      "mean": 0.04,
+      "min": 0.0,
+      "max": 16.0
+    }
+  },
+  "formula_linear_r2": 0.996107557989577,
+  "formula_linear_coef": [
+    0.08622538346289219,
+    0.037269114484473405,
+    -0.27770118350787376,
+    -0.02447577381108622
+  ],
+  "true_life_by_class": {
+    "Good": {
+      "mean": 10.88,
+      "min": 7.7,
+      "max": 12.0
+    },
+    "Medium": {
+      "mean": 5.38,
+      "min": 4.1,
+      "max": 7.8
+    },
+    "Spoilt": {
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.5
+    }
+  },
+  "elbow_wcss": [
+    44094.99999999997,
+    20143.968102165178,
+    11386.504083843522,
+    9409.670930374676,
+    7925.233900254545,
+    6970.9350708155325,
+    6181.865531370759,
+    5418.338047484134,
+    5037.445694464242,
+    4663.713291695678
+  ],
+  "phase_committed_vs_csv": 1.0,
+  "phase_by_class": {
+    "Good": {
+      "0": 103,
+      "1": 0,
+      "2": 4,
+      "3": 2930
+    },
+    "Medium": {
+      "0": 2471,
+      "1": 1,
+      "2": 671,
+      "3": 1
+    },
+    "Spoilt": {
+      "0": 0,
+      "1": 2635,
+      "2": 3,
+      "3": 0
+    }
+  },
+  "cell8_reported": {
+    "mae": 0.00904789543679244,
+    "r2": 0.9999787433806081
+  },
+  "teacher_file_match": {
+    "exact": 0.5103753260006804,
+    "within_0.1d": 0.9997732169180179,
+    "max_abs_diff": 0.42799999999999905
+  },
+  "saved_scaler_n_samples": 6618,
+  "cell8_vs_formula": {
+    "mae": 0.03628304633087578,
+    "r2": 0.9997017782748215
+  },
+  "leave_one_run_out": {
+    "Good": {
+      "mae": 5.627892657227529,
+      "pred_mean": 5.249585116891668,
+      "true_mean": 10.877477774119198
+    },
+    "Medium": {
+      "mae": 2.3151574427480948,
+      "pred_mean": 7.3569029898218865,
+      "true_mean": 5.383587786259542
+    },
+    "Spoilt": {
+      "mae": 4.5177994692949195,
+      "pred_mean": 4.518064821834723,
+      "true_mean": 0.00026535253980288095
+    }
+  },
+  "cell9_predictions": [
+    11.67655999999999,
+    5.74971595299145,
+    0.0
+  ],
+  "cell9_formula": [
+    14.0,
+    5.991999999999999,
+    0.0
+  ]
+}

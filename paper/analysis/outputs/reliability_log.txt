@@ -1,0 +1,37 @@
+=== 1. Residual distribution: AIC of normal, Laplace and Student-t (lower is better)
+  fresh  MQ2    n  2784  AIC normal     22266  laplace     20746  t     20564  best student_t  beyond 4 SD 2.44% (normal 0.006%)
+  fresh  MQ3    n  2855  AIC normal     25627  laplace     24139  t     23950  best student_t  beyond 4 SD 1.93% (normal 0.006%)
+  fresh  MQ135  n   688  AIC normal      6023  laplace      5209  t      5052  best student_t  beyond 4 SD 2.91% (normal 0.006%)
+  medium MQ2    n  2972  AIC normal     25249  laplace     24210  t     24111  best student_t  beyond 4 SD 1.55% (normal 0.006%)
+  medium MQ3    n  2984  AIC normal     34068  laplace     32703  t     32676  best student_t  beyond 4 SD 3.95% (normal 0.006%)
+  medium MQ135  n  2966  AIC normal     25072  laplace     24085  t     23986  best student_t  beyond 4 SD 1.96% (normal 0.006%)
+  spoilt MQ2    n  2628  AIC normal     22130  laplace     21757  t     21720  best student_t  beyond 4 SD 0.57% (normal 0.006%)
+  spoilt MQ3    n  2634  AIC normal     26047  laplace     25360  t     25270  best student_t  beyond 4 SD 1.33% (normal 0.006%)
+  spoilt MQ135  n  2601  AIC normal     22361  laplace     20369  t     20231  best student_t  beyond 4 SD 1.69% (normal 0.006%)
+=== 2. Stabilisation: minutes until the 5-min median stays within +/-5% of the segment's final 15-min level
+  MQ2    segments 5  stabilised in 4  median 55.3 min  range 39.6-133.6
+  MQ3    segments 5  stabilised in 4  median 11.7 min  range 2.9-52.2
+  MQ135  segments 3  stabilised in 2  median 87.0 min  range 37.2-136.8
+=== 3. Repeatability (1-min medians) and session effects (mixed model)
+  fresh|MQ2      segments  9  within-segment CV 0.08  between-segment CV 0.14
+  fresh|MQ3      segments  9  within-segment CV 0.04  between-segment CV 0.64
+  fresh|MQ135    segments  9  within-segment CV 0.60  between-segment CV 1.56
+  medium|MQ2     segments 10  within-segment CV 0.14  between-segment CV 0.5
+  medium|MQ3     segments 10  within-segment CV 0.04  between-segment CV 0.4
+  medium|MQ135   segments 10  within-segment CV 0.13  between-segment CV 0.36
+  spoilt|MQ2     segments  3  within-segment CV 0.07  between-segment CV 0.11
+  spoilt|MQ3     segments  3  within-segment CV 0.01  between-segment CV 0.06
+  spoilt|MQ135   segments  3  within-segment CV 0.09  between-segment CV 0.04
+  MQ2    class only      session var 0.072  residual var 0.034  ICC 0.68
+  MQ2    class + T + RH  session var 0.078  residual var 0.034  ICC 0.70  T +4.0%/C  RH +0.1%/%RH
+  MQ3    class only      session var 0.177  residual var 0.009  ICC 0.95
+  MQ3    class + T + RH  session var 0.184  residual var 0.009  ICC 0.95  T +9.8%/C  RH +3.7%/%RH
+  MQ135  class only      session var 0.923  residual var 0.105  ICC 0.90
+  MQ135  class + T + RH  session var 0.913  residual var 0.105  ICC 0.90  T -6.0%/C  RH -6.0%/%RH
+=== 4. Co-variation of channels within runs (Spearman, 1-min medians and 5-s residuals)
+  fresh  levels {'MQ2-MQ3': 0.72, 'MQ2-MQ135': 0.7, 'MQ3-MQ135': 0.73}  residuals {'MQ2-MQ3': 0.02, 'MQ2-MQ135': -0.03, 'MQ3-MQ135': 0.0}
+  medium levels {'MQ2-MQ3': 0.37, 'MQ2-MQ135': -0.14, 'MQ3-MQ135': -0.66}  residuals {'MQ2-MQ3': -0.0, 'MQ2-MQ135': 0.18, 'MQ3-MQ135': 0.03}
+  spoilt levels {'MQ2-MQ3': 0.04, 'MQ2-MQ135': 0.74, 'MQ3-MQ135': 0.27}  residuals {'MQ2-MQ3': 0.15, 'MQ2-MQ135': 0.24, 'MQ3-MQ135': 0.12}
+=== 5. Fresh class recorded in two blocks: settled levels compared
+  block 0: from 2026-03-29 18:35:26  n  410  MQ2 61  MQ3 1040  MQ135 12  T 28.3  RH 74.6
+  block 1: from 2026-03-30 18:31:28  n 1517  MQ2 45  MQ3 362  MQ135 0  T 28.7  RH 76.2

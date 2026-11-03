@@ -1,0 +1,35 @@
+=== 1. Warm-up after restarts
+segment length (min): {'fresh': {'n': 11, 'median': 10.883333333333333, 'max': 75.76666666666667}, 'medium': {'n': 12, 'median': 11.675, 'max': 114.63333333333334}, 'spoilt': {'n': 3, 'median': 42.916666666666664, 'max': 147.95}}
+share of readings kept if the first w minutes after a restart are dropped: {10: {'fresh': '63%', 'medium': '62%', 'spoilt': '86%'}, 15: {'fresh': '53%', 'medium': '50%', 'spoilt': '80%'}, 30: {'fresh': '26%', 'medium': '35%', 'spoilt': '59%'}, 60: {'fresh': '6%', 'medium': '21%', 'spoilt': '40%'}}
+MQ3, median of first 5 min vs after 30 min (segments >= 40 min): [('fresh', '+76%'), ('fresh', '+4%'), ('medium', '-5%'), ('spoilt', '-0%'), ('spoilt', '-0%')]
+=== 2. External climate vs DHT22 (hourly means, 12 hours)
+  T_era5 {'bias_ext_minus_indoor': -3.77, 'rmse': 4.2, 'r': 0.77, 'ext_range': [22.5, 29.3]}
+  RH_era5 {'bias_ext_minus_indoor': 7.37, 'rmse': 14.15, 'r': 0.96, 'ext_range': [56.0, 98.0]}
+  T_power {'bias_ext_minus_indoor': -1.36, 'rmse': 2.69, 'r': 0.73, 'ext_range': [24.8, 32.5]}
+  RH_power {'bias_ext_minus_indoor': 5.23, 'rmse': 12.75, 'r': 0.96, 'ext_range': [53.0, 94.3]}
+  T_indoor_range [27.1, 29.8]
+  RH_indoor_range [68.4, 81.0]
+  T_era5_full_range [21.3, 31.1]
+  T_power_full_range [23.7, 33.0]
+=== 3. Sample-size simulation
+  sd_b 0.1  B  4  m 20  CI half-width 2.10 d  events 100%
+  sd_b 0.1  B  6  m 20  CI half-width 1.41 d  events 100%
+  sd_b 0.1  B  8  m 10  CI half-width 1.32 d  events 100%
+  sd_b 0.1  B  8  m 20  CI half-width 1.14 d  events 100%
+  sd_b 0.1  B  8  m 30  CI half-width 1.06 d  events 100%
+  sd_b 0.1  B 10  m 20  CI half-width 0.97 d  events 100%
+  sd_b 0.1  B 12  m 20  CI half-width 0.86 d  events 100%
+  sd_b 0.2  B  4  m 20  CI half-width 3.70 d  events 98%
+  sd_b 0.2  B  6  m 20  CI half-width 2.50 d  events 99%
+  sd_b 0.2  B  8  m 10  CI half-width 2.10 d  events 99%
+  sd_b 0.2  B  8  m 20  CI half-width 1.94 d  events 99%
+  sd_b 0.2  B  8  m 30  CI half-width 1.91 d  events 99%
+  sd_b 0.2  B 10  m 20  CI half-width 1.66 d  events 99%
+  sd_b 0.2  B 12  m 20  CI half-width 1.51 d  events 99%
+  sd_b 0.3  B  4  m 20  CI half-width 5.80 d  events 96%
+  sd_b 0.3  B  6  m 20  CI half-width 3.67 d  events 96%
+  sd_b 0.3  B  8  m 10  CI half-width 3.02 d  events 96%
+  sd_b 0.3  B  8  m 20  CI half-width 2.94 d  events 96%
+  sd_b 0.3  B  8  m 30  CI half-width 2.87 d  events 96%
+  sd_b 0.3  B 10  m 20  CI half-width 2.49 d  events 96%
+  sd_b 0.3  B 12  m 20  CI half-width 2.17 d  events 96%

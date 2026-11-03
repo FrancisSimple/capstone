@@ -146,7 +146,9 @@ while True:
             roi = frame[y1:y2, x1:x2]
             if roi.size > 0:
                 try:
-                    roi_resized = cv2.resize(roi, (224, 224))
+                    # OpenCV frames are BGR; the model was trained on RGB images
+                    roi_rgb = cv2.cvtColor(roi, cv2.COLOR_BGR2RGB)
+                    roi_resized = cv2.resize(roi_rgb, (224, 224))
                     input_data = (np.expand_dims(roi_resized, axis=0).astype(np.float32) / 127.5) - 1.0
                     interpreter.set_tensor(input_details[0]['index'], input_data)
                     interpreter.invoke()

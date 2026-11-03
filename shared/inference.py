@@ -12,10 +12,12 @@ class Model:
 
     def predict(self, roi):
         # Resize
+        # OpenCV frames are BGR; the model was trained on RGB images
+        roi = cv2.cvtColor(roi, cv2.COLOR_BGR2RGB)
         roi = cv2.resize(roi, (224, 224))
 
-        # Normalize (IMPORTANT - must match training)
-        roi = roi.astype(np.float32) / 255.0
+        # Normalize to [-1, 1] (MobileNetV2 preprocess_input, as in training)
+        roi = roi.astype(np.float32) / 127.5 - 1.0
 
         # Add batch dimension
         input_data = np.expand_dims(roi, axis=0)

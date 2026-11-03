@@ -86,15 +86,17 @@ async def trigger_intelligence(index: int = -1):
     # 2. Run Gas RF Model (Local Intelligence Phase 1)
     try:
         gas_sum = mq2 + mq3 + mq135
-        mq3_ratio = mq3 / (mq2 + 0.001)
-        th_index = (temp * hum) / 100.0
+        # Same formulas as the training notebook (gasmodel.py, Cell 3)
+        mq3_ratio = mq3 / (gas_sum + 1e-6)
+        th_index = temp * hum
         
         gas_features = pd.DataFrame([[mq2, mq3, mq135, temp, hum, gas_sum, mq3_ratio, th_index]], 
                                      columns=['MQ2', 'MQ3', 'MQ135', 'Temperature', 'Humidity', 'Gas_Sum', 'MQ3_Ratio', 'Temp_Hum_Index'])
         
         gas_scaled = models['gas_scaler'].transform(gas_features)
         gas_probs = models['gas_rf'].predict_proba(gas_scaled)[0]
-        gas_quality = (gas_probs[1] * 50.0) + (gas_probs[2] * 100.0)
+        # Model classes are [0=Fresh, 1=Medium, 2=Spoilt]
+        gas_quality = (gas_probs[0] * 100.0) + (gas_probs[1] * 50.0)
         print(f"   -> Gas Quality Calculated: {gas_quality:.1f}%")
     except Exception as e:
         print(f"   ❌ Gas Model Error: {e}")

@@ -1,0 +1,12 @@
+Training images: {'rotten': 1595, 'fresh': 1466}
+Phase 1 epochs run: 15 best val_loss 0.0556
+Phase 2 epochs run: 5 best val_loss 0.2711
+Saved models\keras\orange_quality_model_production.keras
+Kaggle test  thr 0.5: acc 0.9102  tn/fp/fn/tp [388, 0, 71, 332]
+Kaggle test  thr 0.4: acc 0.9178  tn/fp/fn/tp [388, 0, 65, 338]
+Kaggle test  AUC 0.9989
+real/ (36)   thr 0.5: acc 0.6944  tn/fp/fn/tp [15, 10, 1, 10]
+real/ (36)   thr 0.4: acc 0.6389  tn/fp/fn/tp [13, 12, 1, 10]
+real/ (36)   AUC 0.8545
+Serving graph equals trained model: True
+Saved models\tflite\orange_quality_model_production.tflite (8.9 MB)

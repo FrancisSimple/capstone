@@ -1,0 +1,11 @@
+Public training images: 3061
+features done: geometric
+features done: photometric
+  public only | none                            16/36  acc 0.444  F1 0.50  spec 0.24  AUC 0.89  cm [6, 19, 1, 10]
+  public + field (other days) | none            34/36  acc 0.944  F1 0.91  spec 0.96  AUC 0.92  cm [24, 1, 1, 10]
+  public only | geometric                       16/36  acc 0.444  F1 0.50  spec 0.24  AUC 0.90  cm [6, 19, 1, 10]
+  public + field (other days) | geometric       34/36  acc 0.944  F1 0.91  spec 0.96  AUC 0.92  cm [24, 1, 1, 10]
+  public only | photometric                     16/36  acc 0.444  F1 0.50  spec 0.24  AUC 0.88  cm [6, 19, 1, 10]
+  public + field (other days) | photometric     34/36  acc 0.944  F1 0.91  spec 0.96  AUC 0.91  cm [24, 1, 1, 10]
+  public only | both                            14/36  acc 0.389  F1 0.48  spec 0.16  AUC 0.88  cm [4, 21, 1, 10]
+  public + field (other days) | both            34/36  acc 0.944  F1 0.91  spec 0.96  AUC 0.92  cm [24, 1, 1, 10]

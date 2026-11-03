@@ -1,0 +1,27 @@
+=== 1. Ambient shifts (blocked validation, settled windows)
+   gas response per +1 C / +1% RH (log scale): {'MQ2': (0.0396, 0.001), 'MQ3': (0.0934, 0.0364), 'MQ135': (-0.0623, -0.0617)}
+   rf  dT +1 dRH  +0:  Brier M0 0.012 (clean 0.010; change +0.001 [-0.002  0.005])  M1 0.043  M2 0.106  bal.acc M0 1.00 M1 1.00
+   rf  dT +2 dRH  +0:  Brier M0 0.014 (clean 0.010; change +0.004 [-0.001  0.009])  M1 0.068  M2 0.115  bal.acc M0 1.00 M1 1.00
+   rf  dT -2 dRH  +0:  Brier M0 0.075 (clean 0.010; change +0.065 [0.031 0.105])  M1 0.096  M2 0.168  bal.acc M0 1.00 M1 0.98
+   rf  dT +0 dRH  +5:  Brier M0 0.026 (clean 0.010; change +0.016 [0.008 0.026])  M1 0.050  M2 0.132  bal.acc M0 1.00 M1 1.00
+   rf  dT +0 dRH +10:  Brier M0 0.151 (clean 0.010; change +0.141 [0.104 0.18 ])  M1 0.194  M2 0.256  bal.acc M0 1.00 M1 0.93
+   rf  dT +0 dRH -10:  Brier M0 0.212 (clean 0.010; change +0.202 [0.125 0.278])  M1 0.235  M2 0.314  bal.acc M0 0.89 M1 0.89
+   rf  dT +2 dRH -10:  Brier M0 0.075 (clean 0.010; change +0.065 [0.028 0.111])  M1 0.279  M2 0.173  bal.acc M0 0.99 M1 0.87
+   ord dT +1 dRH  +0:  Brier M0 0.037 (clean 0.039; change -0.002 [-0.007  0.001])  M1 0.027  M2 0.081  bal.acc M0 0.98 M1 0.99
+   ord dT +2 dRH  +0:  Brier M0 0.038 (clean 0.039; change -0.002 [-0.011  0.004])  M1 0.024  M2 0.090  bal.acc M0 0.98 M1 0.99
+   ord dT -2 dRH  +0:  Brier M0 0.055 (clean 0.039; change +0.016 [0.007 0.03 ])  M1 0.051  M2 0.074  bal.acc M0 0.97 M1 0.97
+   ord dT +0 dRH  +5:  Brier M0 0.021 (clean 0.039; change -0.018 [-0.057  0.001])  M1 0.024  M2 0.070  bal.acc M0 0.99 M1 0.99
+   ord dT +0 dRH +10:  Brier M0 0.020 (clean 0.039; change -0.020 [-0.079  0.013])  M1 0.025  M2 0.085  bal.acc M0 1.00 M1 0.99
+   ord dT +0 dRH -10:  Brier M0 0.071 (clean 0.039; change +0.032 [0.001 0.084])  M1 0.071  M2 0.095  bal.acc M0 0.96 M1 0.96
+   ord dT +2 dRH -10:  Brier M0 0.068 (clean 0.039; change +0.029 [-0.001  0.085])  M1 0.065  M2 0.102  bal.acc M0 0.96 M1 0.97
+=== 2. Air versus fruit temperature (173 ERA5 periods, nominal calibration)
+   tau  1 h: mean |D_fruit - D_air| / D_air = Q10 1.5: 0.005% (max 0.016%), Q10 2.0: 0.016% (max 0.036%), Q10 3.0: 0.040% (max 0.076%)
+   tau  3 h: mean |D_fruit - D_air| / D_air = Q10 1.5: 0.022% (max 0.076%), Q10 2.0: 0.061% (max 0.160%), Q10 3.0: 0.150% (max 0.322%)
+   tau  6 h: mean |D_fruit - D_air| / D_air = Q10 1.5: 0.046% (max 0.164%), Q10 2.0: 0.113% (max 0.327%), Q10 3.0: 0.264% (max 0.623%)
+   tau 12 h: mean |D_fruit - D_air| / D_air = Q10 1.5: 0.078% (max 0.302%), Q10 2.0: 0.175% (max 0.572%), Q10 3.0: 0.378% (max 1.031%)
+   DHT22 accuracy +-0.5 C -> exposure bias {'q10_1.5': '2.0%', 'q10_2.0': '3.5%', 'q10_3.0': '5.6%'}
+   mean within-period SD of hourly room temperature: 0.76 C
+=== 3. Interval-censored Weibull with a batch effect (simulated studies)
+    6 batches: median 11.08 d (SD 1.08); k 4.02 (cov 0.94); theta 0.0684 (true 0.0693, cov 0.82 / t 0.92, power 0.36); Q10 median 2.05 [0.65, 6.06]; sigma_b median 0.15
+   10 batches: median 11.08 d (SD 0.72); k 4.01 (cov 0.93); theta 0.0705 (true 0.0693, cov 0.88 / t 0.91, power 0.43); Q10 median 2.10 [0.87, 4.34]; sigma_b median 0.17
+   15 batches: median 11.05 d (SD 0.57); k 4.00 (cov 0.99); theta 0.0693 (true 0.0693, cov 0.91 / t 0.93, power 0.53); Q10 median 2.02 [1.05, 3.78]; sigma_b median 0.18

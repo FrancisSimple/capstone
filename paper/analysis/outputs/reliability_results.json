@@ -1,0 +1,362 @@
+{
+  "noise_distribution": {
+    "fresh|MQ2": {
+      "n": 2784,
+      "aic": {
+        "normal": 22265.849697718928,
+        "laplace": 20745.73639658527,
+        "student_t": 20563.961397679268
+      },
+      "best": "student_t",
+      "share_beyond_4_robust_sd": 0.02442528735632184,
+      "normal_expectation_beyond_4sd": 6.334248366623973e-05
+    },
+    "fresh|MQ3": {
+      "n": 2855,
+      "aic": {
+        "normal": 25626.53595677902,
+        "laplace": 24138.56487829985,
+        "student_t": 23949.76131433178
+      },
+      "best": "student_t",
+      "share_beyond_4_robust_sd": 0.01926444833625219,
+      "normal_expectation_beyond_4sd": 6.334248366623973e-05
+    },
+    "fresh|MQ135": {
+      "n": 688,
+      "aic": {
+        "normal": 6023.486763533183,
+        "laplace": 5209.011340302812,
+        "student_t": 5052.392643295811
+      },
+      "best": "student_t",
+      "share_beyond_4_robust_sd": 0.029069767441860465,
+      "normal_expectation_beyond_4sd": 6.334248366623973e-05
+    },
+    "medium|MQ2": {
+      "n": 2972,
+      "aic": {
+        "normal": 25249.063313556988,
+        "laplace": 24210.403638404052,
+        "student_t": 24110.706860296486
+      },
+      "best": "student_t",
+      "share_beyond_4_robust_sd": 0.01547779273216689,
+      "normal_expectation_beyond_4sd": 6.334248366623973e-05
+    },
+    "medium|MQ3": {
+      "n": 2984,
+      "aic": {
+        "normal": 34068.06332357921,
+        "laplace": 32702.851185331383,
+        "student_t": 32675.743729219015
+      },
+      "best": "student_t",
+      "share_beyond_4_robust_sd": 0.039544235924932974,
+      "normal_expectation_beyond_4sd": 6.334248366623973e-05
+    },
+    "medium|MQ135": {
+      "n": 2966,
+      "aic": {
+        "normal": 25072.022113531286,
+        "laplace": 24085.337375400562,
+        "student_t": 23986.087141637166
+      },
+      "best": "student_t",
+      "share_beyond_4_robust_sd": 0.019554956169925825,
+      "normal_expectation_beyond_4sd": 6.334248366623973e-05
+    },
+    "spoilt|MQ2": {
+      "n": 2628,
+      "aic": {
+        "normal": 22129.70959234815,
+        "laplace": 21757.260178328044,
+        "student_t": 21719.595431774553
+      },
+      "best": "student_t",
+      "share_beyond_4_robust_sd": 0.005707762557077625,
+      "normal_expectation_beyond_4sd": 6.334248366623973e-05
+    },
+    "spoilt|MQ3": {
+      "n": 2634,
+      "aic": {
+        "normal": 26047.282409826017,
+        "laplace": 25360.051096776955,
+        "student_t": 25270.20819292327
+      },
+      "best": "student_t",
+      "share_beyond_4_robust_sd": 0.013287775246772968,
+      "normal_expectation_beyond_4sd": 6.334248366623973e-05
+    },
+    "spoilt|MQ135": {
+      "n": 2601,
+      "aic": {
+        "normal": 22361.05331764266,
+        "laplace": 20368.70665633255,
+        "student_t": 20230.919522230994
+      },
+      "best": "student_t",
+      "share_beyond_4_robust_sd": 0.016916570549788543,
+      "normal_expectation_beyond_4sd": 6.334248366623973e-05
+    }
+  },
+  "stabilisation": [
+    {
+      "sid": "fresh-8",
+      "ch": "MQ2",
+      "length_min": 47.416666666666664,
+      "stab_min": 44.666666666666664
+    },
+    {
+      "sid": "fresh-8",
+      "ch": "MQ3",
+      "length_min": 47.416666666666664,
+      "stab_min": NaN
+    },
+    {
+      "sid": "fresh-9",
+      "ch": "MQ2",
+      "length_min": 75.76666666666667,
+      "stab_min": 66.01666666666667
+    },
+    {
+      "sid": "fresh-9",
+      "ch": "MQ3",
+      "length_min": 75.76666666666667,
+      "stab_min": 52.166666666666664
+    },
+    {
+      "sid": "medium-9",
+      "ch": "MQ2",
+      "length_min": 114.63333333333334,
+      "stab_min": NaN
+    },
+    {
+      "sid": "medium-9",
+      "ch": "MQ3",
+      "length_min": 114.63333333333334,
+      "stab_min": 13.716666666666667
+    },
+    {
+      "sid": "medium-9",
+      "ch": "MQ135",
+      "length_min": 114.63333333333334,
+      "stab_min": NaN
+    },
+    {
+      "sid": "spoilt-1",
+      "ch": "MQ2",
+      "length_min": 42.916666666666664,
+      "stab_min": 39.583333333333336
+    },
+    {
+      "sid": "spoilt-1",
+      "ch": "MQ3",
+      "length_min": 42.916666666666664,
+      "stab_min": 2.8833333333333333
+    },
+    {
+      "sid": "spoilt-1",
+      "ch": "MQ135",
+      "length_min": 42.916666666666664,
+      "stab_min": 37.166666666666664
+    },
+    {
+      "sid": "spoilt-2",
+      "ch": "MQ2",
+      "length_min": 147.95,
+      "stab_min": 133.6
+    },
+    {
+      "sid": "spoilt-2",
+      "ch": "MQ3",
+      "length_min": 147.95,
+      "stab_min": 9.6
+    },
+    {
+      "sid": "spoilt-2",
+      "ch": "MQ135",
+      "length_min": 147.95,
+      "stab_min": 136.85
+    }
+  ],
+  "repeatability": {
+    "fresh|MQ2": {
+      "segments": 9,
+      "median_within_segment_cv": 0.07881770853246521,
+      "between_segment_cv": 0.13669777393136798
+    },
+    "fresh|MQ3": {
+      "segments": 9,
+      "median_within_segment_cv": 0.03871102913524857,
+      "between_segment_cv": 0.6427649339379402
+    },
+    "fresh|MQ135": {
+      "segments": 9,
+      "median_within_segment_cv": 0.6048852672538256,
+      "between_segment_cv": 1.5623091426314664
+    },
+    "medium|MQ2": {
+      "segments": 10,
+      "median_within_segment_cv": 0.1425187938229848,
+      "between_segment_cv": 0.5021446886033115
+    },
+    "medium|MQ3": {
+      "segments": 10,
+      "median_within_segment_cv": 0.03507777447435531,
+      "between_segment_cv": 0.4001202535327869
+    },
+    "medium|MQ135": {
+      "segments": 10,
+      "median_within_segment_cv": 0.1347770524104597,
+      "between_segment_cv": 0.3616911769725392
+    },
+    "spoilt|MQ2": {
+      "segments": 3,
+      "median_within_segment_cv": 0.0727538693449384,
+      "between_segment_cv": 0.10684773033656349
+    },
+    "spoilt|MQ3": {
+      "segments": 3,
+      "median_within_segment_cv": 0.014438492903733979,
+      "between_segment_cv": 0.06386669384671102
+    },
+    "spoilt|MQ135": {
+      "segments": 3,
+      "median_within_segment_cv": 0.09012786507934642,
+      "between_segment_cv": 0.04213699001913574
+    }
+  },
+  "mixed_model": {
+    "MQ2|class only": {
+      "var_session": 0.07232869781544995,
+      "var_residual": 0.03361438521841149,
+      "icc": 0.6827127901529194,
+      "segments": 22,
+      "windows": 717
+    },
+    "MQ2|class + T + RH": {
+      "var_session": 0.07820202208401336,
+      "var_residual": 0.033525070469482394,
+      "icc": 0.6999378601619806,
+      "segments": 22,
+      "windows": 717,
+      "T_coef_log_per_C": 0.03961026709244202,
+      "T_ci": [
+        -0.03774033756745619,
+        0.11696087175234023
+      ],
+      "RH_coef_log_per_pct": 0.0009782869404250394,
+      "RH_ci": [
+        -0.03328555778459336,
+        0.03524213166544344
+      ]
+    },
+    "MQ3|class only": {
+      "var_session": 0.17742717820136156,
+      "var_residual": 0.009003717320257532,
+      "icc": 0.9517048003493958,
+      "segments": 22,
+      "windows": 717
+    },
+    "MQ3|class + T + RH": {
+      "var_session": 0.18446291008075363,
+      "var_residual": 0.008785851610062383,
+      "icc": 0.9545360522199925,
+      "segments": 22,
+      "windows": 717,
+      "T_coef_log_per_C": 0.0933830382077727,
+      "T_ci": [
+        0.050662678096439547,
+        0.13610339831910587
+      ],
+      "RH_coef_log_per_pct": 0.03636611934278639,
+      "RH_ci": [
+        0.01701696759468343,
+        0.055715271090889355
+      ]
+    },
+    "MQ135|class only": {
+      "var_session": 0.9227396633358975,
+      "var_residual": 0.10528316733764975,
+      "icc": 0.8975867420486473,
+      "segments": 22,
+      "windows": 717
+    },
+    "MQ135|class + T + RH": {
+      "var_session": 0.9130335052240911,
+      "var_residual": 0.10491125361147714,
+      "icc": 0.8969381661422515,
+      "segments": 22,
+      "windows": 717,
+      "T_coef_log_per_C": -0.06232921306926784,
+      "T_ci": [
+        -0.20814295295667132,
+        0.08348452681813565
+      ],
+      "RH_coef_log_per_pct": -0.06173578479589852,
+      "RH_ci": [
+        -0.12716195820882872,
+        0.0036903886170316716
+      ]
+    }
+  },
+  "cross_sensitivity": {
+    "fresh": {
+      "levels": {
+        "MQ2-MQ3": 0.720730219078327,
+        "MQ2-MQ135": 0.6953492657725323,
+        "MQ3-MQ135": 0.7283070095983444
+      },
+      "residuals": {
+        "MQ2-MQ3": 0.02096177307262779,
+        "MQ2-MQ135": -0.03372460425779278,
+        "MQ3-MQ135": 0.0001366717968880421
+      }
+    },
+    "medium": {
+      "levels": {
+        "MQ2-MQ3": 0.3734861560937327,
+        "MQ2-MQ135": -0.1391941826382164,
+        "MQ3-MQ135": -0.6596132634062087
+      },
+      "residuals": {
+        "MQ2-MQ3": -0.0035714738525980923,
+        "MQ2-MQ135": 0.18230420679722192,
+        "MQ3-MQ135": 0.025246017046839778
+      }
+    },
+    "spoilt": {
+      "levels": {
+        "MQ2-MQ3": 0.03538793779447844,
+        "MQ2-MQ135": 0.7367567841260967,
+        "MQ3-MQ135": 0.2667967423033429
+      },
+      "residuals": {
+        "MQ2-MQ3": 0.15388500820263537,
+        "MQ2-MQ135": 0.24455075789921774,
+        "MQ3-MQ135": 0.11576924121151556
+      }
+    }
+  },
+  "fresh_blocks": {
+    "0": {
+      "start": "2026-03-29 18:35:26",
+      "readings": 410,
+      "MQ2": 61.0,
+      "MQ3": 1040.5,
+      "MQ135": 12.0,
+      "T": 28.3,
+      "RH": 74.6
+    },
+    "1": {
+      "start": "2026-03-30 18:31:28",
+      "readings": 1517,
+      "MQ2": 45.0,
+      "MQ3": 362.0,
+      "MQ135": 0.0,
+      "T": 28.7,
+      "RH": 76.2
+    }
+  }
+}

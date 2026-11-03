@@ -1,0 +1,25 @@
+=== Cell 1: rows 8819 {'Medium': np.int64(3144), 'Good': np.int64(3037), 'Spoilt': np.int64(2638)}
+Cell 3: train/test 7055 1764 | re-fitted scaler == committed scaler: False
+=== Cell 4 (random 80/20, as in notebook): {'Random Forest': 0.9989, 'Support Vector Machine': 0.9977, 'K-Nearest Neighbors': 0.9966, 'XGBoost': 0.9983}
+Committed RF on the notebook's own test rows: 0.9989
+Cell 4 models, temporal block (last 20% of each run held out): {'Random Forest': 1.0, 'Support Vector Machine': 1.0, 'K-Nearest Neighbors': 1.0, 'XGBoost': 0.996}
+   ... using ONLY temperature/humidity features: {'Random Forest': 0.9188, 'Support Vector Machine': 0.8207, 'K-Nearest Neighbors': 0.8434, 'XGBoost': 0.8627}
+Cell 5 importances (committed RF): {'MQ135': 0.256, 'Humidity': 0.18, 'Gas_Sum': 0.175, 'MQ3': 0.142, 'Temp_Hum_Index': 0.111, 'MQ2': 0.075, 'Temperature': 0.031, 'MQ3_Ratio': 0.03}
+=== Cell 6: fraction of committed rows reproduced exactly by the notebook generator: {'Vision_Quality': 1.0, 'Area': 1.0, 'Gas_Quality': 1.0, 'Humidity': 1.0, 'Temperature': 1.0, 'label_mask': 1.0, 'labels_equal_formula': 1.0}
+   labelled rows: 876 of 8819
+Gas_Quality by class: {'Good': {'mean': 99.87, 'min': 63.0, 'max': 100.0}, 'Medium': {'mean': 50.06, 'min': 47.5, 'max': 80.0}, 'Spoilt': {'mean': 0.04, 'min': 0.0, 'max': 16.0}}
+Linear fit of the target on its own formula inputs: R2 = 0.9961 coef [np.float64(0.0862), np.float64(0.0373), np.float64(-0.2777), np.float64(-0.0245)]
+Target by class: {'Good': {'mean': 10.88, 'min': 7.7, 'max': 12.0}, 'Medium': {'mean': 5.38, 'min': 4.1, 'max': 7.8}, 'Spoilt': {'mean': 0.0, 'min': 0.0, 'max': 0.5}}
+Cell 7 WCSS k=1..10: [44095, 20144, 11387, 9410, 7925, 6971, 6182, 5418, 5037, 4664]
+=== Cell 8: committed K-means reproduces CSV phases: 1.0
+Spoilage_Phase x class:
+Spoilage_Phase     0     1    2     3
+Quality                              
+Good             103     0    4  2930
+Medium          2471     1  671     1
+Spoilt             0  2635    3     0
+Cell 8 as published (student vs pseudo-labels): MAE 0.009 d, R2 1.0000
+Re-run pseudo-labels vs committed fully_labeled_by_teacher.csv (sorted): {'exact': 0.5103753260006804, 'within_0.1d': 0.9997732169180179, 'max_abs_diff': 0.42799999999999905} | committed scaler fitted on 6618 rows
+Student scored on the formula value for the same rows: MAE 0.036 d, R2 0.9997
+Leave-one-run-out (train on 2 runs, test on the third): {'Good': {'mae': 5.63, 'pred_mean': 5.25, 'true_mean': 10.88}, 'Medium': {'mae': 2.32, 'pred_mean': 7.36, 'true_mean': 5.38}, 'Spoilt': {'mae': 4.52, 'pred_mean': 4.52, 'true_mean': 0.0}}
+Cell 9 committed model: [11.68, 5.75, 0.0] | formula: [14.0, 5.99, 0.0]
